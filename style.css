@@ -1,0 +1,355 @@
+/* Alapbeállítások */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background: url('hatter_turista.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Fejléc */
+header img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Navigáció */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #333;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  margin: 0 15px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 15px;
+  display: block;
+}
+
+nav a:hover {
+  background-color: #555;
+}
+
+/* Szűrősáv */
+.filter-bar {
+  background-color: rgba(255, 255, 255, 0);
+  padding: 15px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.filter-bar label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.filter-bar select,
+.filter-bar button {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.filter-bar button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.filter-bar button:hover {
+  background-color: #0056b3;
+}
+
+/* Tartalom */
+.wrapper {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Kártyarész */
+#combined-cards {
+  width: 100%;
+  padding: 20px 0;
+  background-color: rgba(255, 255, 255, 0);
+  box-sizing: border-box;
+}
+
+.cards-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.cards-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.cards-header select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Slider */
+.slider-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: nowrap; /* ⬅️ Tördelje sorba a kártyákat */
+  gap: 15px;
+  overflow: hidden; /* ⛔ Ne legyen scroll */
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+
+/* Kártyák */
+.card {
+  flex: 0 0 300px;                 /* Fix szélesség, ne zsugorodjon */
+  min-width: 250px;
+  background: rgba(255, 255, 255, 0.4); /* Átlátszó háttér */
+  backdrop-filter: blur(6px);     /* Üveghatás */
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 15px;
+  transition: transform 0.3s;
+}
+
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card .city {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.card .price-btn {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.card button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background: #0056b3;
+}
+
+/* Nyíl gombok */
+.slide-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+  z-index: 10;
+}
+
+.slide-btn:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.slide-btn.left {
+  left: 5px;
+}
+
+.slide-btn.right {
+  right: 5px;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+
+#close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Reszponzív */
+@media (max-width: 1000px) {
+  .card {
+    flex: 0 0 calc(50% - 15px);
+  }
+
+  .cards-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    flex: 0 0 100%;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    
+  }
+
+  .cards-header {
+    padding: 0 10px;
+  }
+
+  .cards-container {
+    padding: 0 10px;
+  }
+}
+
+<!--  -->
+
+.travel-advice {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+.travel-advice h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.destination-image img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.city-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.city-tabs button {
+  padding: 8px 12px;
+  border: none;
+  background: #eee;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.city-tabs .active {
+  background: #007bff;
+  color: white;
+}
+
+.price-calendar .disclaimer {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+
+.calendar-layout { display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap; }
+.calendar-image img { width: 300px; border-radius: 8px; object-fit: cover; }
+.month-prices { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.month-prices li { background: #f9f9f9; padding: 12px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+.month-prices li.highlight { background: #d4edda; border: 2px solid #28a745; } 
+.month-prices strong { display: block; font-size: 16px; margin-bottom: 5px; } 
+.month-prices span { font-size: 15px; color: #000; } 
+.all-months { display: block; margin: 20px auto 0; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; } 
+<!----> 
+.price-calendar {flex: 1; max-width: 1000px; margin: 40px auto; padding: 20px; background: rgba(255, 255, 255, 0.9); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-family: Arial, sans-serif; } 
+.calendar-layout { display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap; } 
+.calendar-image img { width: 300px; border-radius: 8px; object-fit: cover; } 
+.month-prices { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; } 
+.month-prices li { background: #f9f9f9; padding: 12px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); } 
+.month-prices strong { display: block; font-size: 16px; margin-bottom: 5px; } 
+.month-prices span { font-size: 15px; color: #333; } 
+.all-months { margin-top: 30px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; } 
+.calendar-container { display: flex; gap: 30px; align-items: center; flex-wrap: wrap; max-width: 1000px; margin: 40px auto; } 
+.destination-image img { width: 100%; max-width: 600px; justify-content: center; height: auto; border-radius: 8px; object-fit: cover; display: block; } 
+.month-prices { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; /* ← EZ legyen 1 oszlop */ gap: 15px; } 
+.month-prices li { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; /* EGY oszlop */ gap: 15px; } 
+.month-prices strong { display: block; font-size: 16px; margin-bottom: 5px; }
+ .month-prices span { font-size: 15px; color: #333; }
+
+

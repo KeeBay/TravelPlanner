@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Szállásajánlatok</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <img src="repulogep.png" alt="Fejléc kép">
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="kov.spec.html">KÖveletmény specifikáció</a></li>
+      <li><a href="bejelentkezes.html">Bejelentkezes</a></li>
+      <li><a href="#">Thread3</a></li>
+      <li><a href="#">Thread4</a></li>
+      <li><a href="#">Thread5</a></li>
+    </ul>
+  </nav>
+
+  <!-- Szűrősáv -->
+  <section class="filter-bar">
+    <form>
+      <label for="city">Város:</label>
+      <select id="city" name="city">
+        <option value="">Válassz várost</option>
+        <option value="budapest">Budapest</option>
+        <option value="eger">Eger</option>
+        <option value="szeged">Szeged</option>
+      </select>
+
+      <label for="price">Ár:</label>
+      <select id="price" name="price">
+        <option value="">Árkategória</option>
+        <option value="low">10 000 Ft alatt</option>
+        <option value="mid">10 000 - 20 000 Ft</option>
+        <option value="high">20 000 Ft felett</option>
+      </select>
+
+      <label for="days">Időtartam:</label>
+      <select id="days" name="days">
+        <option value="">Válassz időt</option>
+        <option value="1">1 éjszaka</option>
+        <option value="2">2 éjszaka</option>
+        <option value="3plus">3+ éjszaka</option>
+      </select>
+
+      <label for="guests">Fő:</label>
+      <select id="guests" name="guests">
+        <option value="">Vendégek száma</option>
+        <option value="1">1 fő</option>
+        <option value="2">2 fő</option>
+        <option value="3plus">3+ fő</option>
+      </select>
+
+      <button type="submit">Szűrés</button>
+    </form>
+  </section>
+
+  <!-- Egyesített kártyarész -->
+  <main class="wrapper">
+    <section id="combined-cards">
+      <div class="cards-header">
+        <h2>Legjobb ajánlatok</h2>
+        <select id="sort-price">
+          <option value="default">Eredeti sorrend</option>
+          <option value="asc">Ár szerint növekvő</option>
+          <option value="desc">Ár szerint csökkenő</option>
+        </select>
+      </div>
+
+      <div class="slider-wrapper">
+        <button class="slide-btn left">&#10094;</button>
+        <div class="cards-container"></div>
+        <button class="slide-btn right">&#10095;</button>
+      </div>
+    </section>
+  </main>
+
+
+  <!---________________________________________________-->
+<div class="travel-advice">
+  <h2>Fedezd fel a legjobb időszakot a következő foglalásodhoz</h2>
+  <div class="city-tabs">
+    <button class="active">Bécs</button>
+    <button>Budapest</button>
+    <button>Sharm el-Sheikh</button>
+    <button>Prága</button>
+    <button>Dubaj</button>
+    <button>Zakopane</button>
+    <button>Barcelona</button>
+    <button>Róma</button>
+    <button>London</button>
+    <button>Párizs</button>
+  </div>
+
+  <div class="calendar-container">
+  <div class="destination-image">
+    <img src="becs.PNG" alt="Bécs">
+  </div>
+
+    <div class="price-calendar">
+    <ul class="month-prices">
+      <li><strong>Dec.</strong><span>49 195 Ft – 158 560 Ft</span></li>
+      <li><strong>Dec.</strong><span>49 195 Ft – 158 560 Ft</span></li>
+      <li><strong>Dec.</strong><span>49 195 Ft – 158 560 Ft</span></li>
+      <li><strong>Dec.</strong><span>49 195 Ft – 158 560 Ft</span></li>
+      <li><strong>Dec.</strong><span>49 195 Ft – 158 560 Ft</span></li>
+    </ul>
+  </div>
+</div>
+
+
+    <button class="all-months">Minden hónap</button>
+  </div>
+
+
+
+
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="close-btn">&times;</span>
+      <img id="modal-img" src="" alt="Szállás kép" style="width:100%; max-height:300px; object-fit:cover;">
+      <h3 id="modal-varos"></h3>
+      <p id="modal-ejszakak"></p>
+      <p id="modal-ar"></p>
+    </div>
+  </div>
+</body>
+</html>
