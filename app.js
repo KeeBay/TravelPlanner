@@ -1,10 +1,10 @@
 // Szállások adatai
 const szallasok = [
-  { varos: "Budapest", ejszakak: 2, ar: 20000, kep: "images/budapest.jpg" },
-  { varos: "Eger", ejszakak: 3, ar: 15000, kep: "images/eger.jpg" },
-  { varos: "Szeged", ejszakak: 1, ar: 10000, kep: "images/szeged.jpg" },
-  { varos: "Pécs", ejszakak: 4, ar: 25000, kep: "images/pecs.jpg" },
-  { varos: "Debrecen", ejszakak: 2, ar: 18000, kep: "images/debrecen.jpg" }
+  { varos: "Budapest", ejszakak: 2, ar: 20000, kep: "repulogep.png" },
+  { varos: "Eger", ejszakak: 3, ar: 15000, kep: "repulogep.png" },
+  { varos: "Szeged", ejszakak: 1, ar: 10000, kep: "repulogep.png" },
+  { varos: "Pécs", ejszakak: 4, ar: 25000, kep: "repulogep.png" },
+  { varos: "Debrecen", ejszakak: 2, ar: 18000, kep: "repulogep.png" }
 ];
 
 // Kártyák kirajzolása
@@ -18,15 +18,23 @@ function renderCards(data, containerSelector) {
     card.setAttribute('data-price', szallas.ar); // 🔽 ár attribútum a rendezéshez
 
     card.innerHTML = `
-      <div class="city">
-        <img src="${szallas.kep}" alt="${szallas.varos}">
-        <span><strong>${szallas.varos}</strong></span>
-      </div>
-      <span>${szallas.ejszakak} éjszaka</span>
-      <div class="price-btn">
-        <span>${szallas.ar.toLocaleString()} Ft</span>
-        <button class="megnezem-btn">Megnézem</button>
-      </div>
+      <div class="card">
+  <div class="city-image-wrapper">
+    <img src="${szallas.kep}" alt="${szallas.varos}">
+    <span class="city-label"><strong>${szallas.varos}</strong></span>
+    
+  </div>
+
+  <div class="card-info">
+  
+    <p class="ajanlas">Ajánlás betöltése...</p>
+    <div class="price-btn">
+      <button class="megnezem-btn">Megnézem</button>
+    </div>
+  </div>
+</div>
+
+
     `;
     container.appendChild(card);
 
@@ -108,3 +116,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initSliders();
   });
 });
+

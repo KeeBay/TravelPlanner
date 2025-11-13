@@ -3,67 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <title>Szállásajánlatok</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.rtl.min.css" integrity="sha384-CfCrinSRH2IR6a4e6fy2q6ioOX7O6Mtm1L9vRvFZ1trBncWmMePhzvafv7oIcWiW" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
 </head>
 <body>
   <header>
-    <img src="repulogep.png" alt="Fejléc kép">
-  </header>
-
-  <nav>
+    <nav>
     <ul>
-      <li><a href="kov.spec.html">KÖveletmény specifikáció</a></li>
+      <li><a href="kov.spec.html">Köveletmény specifikáció</a></li>
       <li><a href="bejelentkezes.html">Bejelentkezes</a></li>
-      <li><a href="#">Thread3</a></li>
-      <li><a href="#">Thread4</a></li>
-      <li><a href="#">Thread5</a></li>
+      <li><a href="naptar.html">Naptár</a></li>
+      <li><a href="index.html">Index</a></li>
+      <li><a href="regisztracio.html">Regisztracio</a></li>
     </ul>
   </nav>
+  </header>
+
+  
 
   <!-- Szűrősáv -->
-  <section class="filter-bar">
-    <form>
-      <label for="city">Város:</label>
-      <select id="city" name="city">
-        <option value="">Válassz várost</option>
-        <option value="budapest">Budapest</option>
-        <option value="eger">Eger</option>
-        <option value="szeged">Szeged</option>
-      </select>
+<section class="filter-bar">
+  <form>
+    <label for="city">Város:</label>
+    <input type="text" id="city" name="city" placeholder="Írd be a város nevét">
 
-      <label for="price">Ár:</label>
-      <select id="price" name="price">
-        <option value="">Árkategória</option>
-        <option value="low">10 000 Ft alatt</option>
-        <option value="mid">10 000 - 20 000 Ft</option>
-        <option value="high">20 000 Ft felett</option>
-      </select>
+    <label for="price">Ár:</label>
+    <select id="price" name="price">
+      <option value="">Árkategória</option>
+      <option value="low">10 000 Ft alatt</option>
+      <option value="mid">10 000 - 20 000 Ft</option>
+      <option value="high">20 000 Ft felett</option>
+    </select>
 
-      <label for="days">Időtartam:</label>
-      <select id="days" name="days">
-        <option value="">Válassz időt</option>
-        <option value="1">1 éjszaka</option>
-        <option value="2">2 éjszaka</option>
-        <option value="3plus">3+ éjszaka</option>
-      </select>
+    <label for="days">Időtartam:</label>
+    <select id="days" name="days">
+      <option value="">Válassz időt</option>
+      <option value="1">1 éjszaka</option>
+      <option value="2">2 éjszaka</option>
+      <option value="3plus">3+ éjszaka</option>
+    </select>
 
-      <label for="guests">Fő:</label>
-      <select id="guests" name="guests">
-        <option value="">Vendégek száma</option>
-        <option value="1">1 fő</option>
-        <option value="2">2 fő</option>
-        <option value="3plus">3+ fő</option>
-      </select>
+    <label for="guests">Fő:</label>
+    <select id="guests" name="guests">
+      <option value="">Vendégek száma</option>
+      <option value="1">1 fő</option>
+      <option value="2">2 fő</option>
+      <option value="3plus">3+ fő</option>
+    </select>
 
-      <button type="submit">Szűrés</button>
-    </form>
-  </section>
+    <button type="submit">Szűrés</button>
+  </form>
+</section>
+
 
   <!-- Egyesített kártyarész -->
   <main class="wrapper">
     <section id="combined-cards">
       <div class="cards-header">
+
+
+
         <h2>Legjobb ajánlatok</h2>
         <select id="sort-price">
           <option value="default">Eredeti sorrend</option>
@@ -72,6 +72,7 @@
         </select>
       </div>
 
+
       <div class="slider-wrapper">
         <button class="slide-btn left">&#10094;</button>
         <div class="cards-container"></div>
@@ -79,6 +80,24 @@
       </div>
     </section>
   </main>
+  <!-- Modal -->
+  <div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="close-btn">&times;</span>
+
+    <div class="modal-image-wrapper">
+      <img id="modal-img" src="" alt="Szállás kép">
+      <span id="modal-varos" class="city-label">Város neve</span>
+    </div>
+
+    <div class="modal-details">
+      <p id="modal-ejszakak">Nincs megadva éjjszaka</p>
+      <p id="modal-ar">Nincs megadva ár</p>
+      
+    </div>
+  </div>
+</div>
+
 
 
   <!---________________________________________________-->
@@ -120,16 +139,33 @@
 
 
 
+<script>
+  const modal = document.getElementById("modal");
+  const closeBtn = document.getElementById("close-btn");
 
-  <!-- Modal -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span id="close-btn">&times;</span>
-      <img id="modal-img" src="" alt="Szállás kép" style="width:100%; max-height:300px; object-fit:cover;">
-      <h3 id="modal-varos"></h3>
-      <p id="modal-ejszakak"></p>
-      <p id="modal-ar"></p>
-    </div>
-  </div>
+  // Kártya gombok (pl. minden "Megnézem" gomb a kártyákon)
+  const openBtns = document.querySelectorAll(".open-modal");
+
+  // Megnyitás
+  openBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      modal.style.display = "block";
+    });
+  });
+
+  // Bezárás X gombbal
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  // Bezárás ha a háttérre kattintasz
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+</script>
+
+  
 </body>
 </html>

@@ -7,6 +7,81 @@ html, body {
   background: url('hatter_turista.png') no-repeat center center fixed;
   background-size: cover;
 }
+.megnezem-btn{
+  margin-left: 30%;
+}
+.modal-image-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-image-wrapper img {
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.city-label {
+  position: absolute;
+  bottom: 100px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.modal-details {
+  text-align: center;
+}
+
+#modal-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#modal-btn:hover {
+  background-color: #0056b3;
+}
+.modal {
+  display: none;          /* alapból rejtve */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); /* átlátszó háttér */
+}
+
+.modal-content {
+  background: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 8px;
+  position: relative;
+}
+
+#close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
 
 /* Fejléc */
 header img {
@@ -78,7 +153,7 @@ nav a:hover {
 }
 
 .filter-bar button:hover {
-  background-color: #0056b3;
+  background-color: #007bff;
 }
 
 /* Tartalom */
@@ -157,11 +232,13 @@ nav a:hover {
 }
 
 .card img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 6px;
+  width: 100%;          /* a szülő elem szélességéhez igazodik */
+  height: auto;         /* arányosan változik a magasság */
+  object-fit: cover;    /* kitölti a rendelkezésre álló teret */
+  border-radius: 6px;   /* lekerekített sarkok */
+  max-width: 250px;     /* opcionális felső korlát */
 }
+
 
 .card .price-btn {
   display: flex;
@@ -328,6 +405,7 @@ nav a:hover {
 }
 
 
+
 .calendar-layout { display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap; }
 .calendar-image img { width: 300px; border-radius: 8px; object-fit: cover; }
 .month-prices { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -352,4 +430,133 @@ nav a:hover {
 .month-prices strong { display: block; font-size: 16px; margin-bottom: 5px; }
  .month-prices span { font-size: 15px; color: #333; }
 
+/* Teljes naptár konténer */
+#calendar {
+  background-color: #f0f8ff;   /* világoskék háttér */
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Napok háttere */
+.fc-daygrid-day {
+  background-color: #ffffff;   /* fehér háttér minden napnak */
+}
+
+/* Hétvégék kiemelése */
+.fc-day-sun, .fc-day-sat {
+  background-color: #ffe6e6;   /* halványpiros hétvégék */
+}
+
+/* Fejléc (napok nevei) */
+.fc-col-header-cell {
+  background-color: #fdfdfd;   /* halványkék háttér a napok neveinek */
+  color: #333;                 /* sötétszürke betűszín */
+  font-weight: bold;
+}
+
+/* Hónap címe */
+.fc-toolbar-title {
+  color: #2c3e50;              /* sötétkék cím */
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+/* Navigációs gombok (prev, next, today) */
+.fc-button {
+  background-color: #007bff;   /* kék gomb */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+
+.fc-button:hover {
+  background-color: #0056b3;   /* sötétebb kék hover */
+}
+
+/* Események megjelenése */
+.fc-event {
+  background-color: #28a745;   /* zöld esemény háttér */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 0.9em;
+}
+
+ <!---->
+.login-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+  color: #222;
+}
+
+.login-container .form-group {
+  margin-bottom: 20px;
+}
+
+.login-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-container button:hover {
+  background-color: #0056b3;
+}
+
+.center-image-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.image-center-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* vagy amekkora a kártya magassága */
+  width: 100%;
+}
+
+.image-center-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
 
