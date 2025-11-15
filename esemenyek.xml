@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<events>
+  <event>
+    <title>EKKE Mozi: Köln 75</title>
+    <start>2025-11-04T17:30:00</start>
+    <end>2025-11-04T19:00:00</end>
+  </event>
+  <event>
+    <title>Hosszú szünet</title>
+    <start>2025-09-15T17:15:00</start>
+    <end>2025-12-18T18:00:00</end>
+  </event>
+</events>
