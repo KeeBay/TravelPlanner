@@ -117,3 +117,32 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+
+// Városokhoz képek hozzárendelése
+const cityImages = {
+  "Eger": "becs.png",
+  "Budapest": "becs.png",
+  "Bécs": "becs.png",
+  "Szeged": "becs.png",
+  "Prága": "becs.png"
+};
+
+// Kártyák kiválasztása
+const cards = document.querySelectorAll(".destination-card");
+
+// Végigmegyünk a kártyákon és beállítjuk a háttérképet
+cards.forEach(card => {
+  const cityName = card.textContent.trim();
+
+  if (cityImages[cityName]) {
+    card.style.backgroundImage = `url(${cityImages[cityName]})`;
+    card.style.backgroundSize = "cover";
+    card.style.backgroundPosition = "center";
+    card.style.color = "white"; // szöveg jól látszódjon
+    card.style.textShadow = "1px 1px 3px black"; // kontraszt
+    card.style.minHeight = "120px"; // legyen hely a képnek
+    card.style.display = "flex";
+    card.style.alignItems = "center";
+    card.style.justifyContent = "center";
+  }
+});

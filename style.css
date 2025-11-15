@@ -63,26 +63,6 @@ html, body {
   background: rgba(0,0,0,0.5); /* átlátszó háttér */
 }
 
-.modal-content {
-  background: #fff;
-  margin: 10% auto;
-  padding: 20px;
-  width: 80%;
-  max-width: 400px;
-  border-radius: 8px;
-  position: relative;
-}
-
-#close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-
-
 /* Fejléc */
 header img {
   width: 100%;
@@ -369,12 +349,9 @@ nav a:hover {
   font-size: 24px;
   margin-bottom: 20px;
 }
+.destination-image img { width: 100%; max-width: 600px; margin-bottom: 20px; justify-content: center; height: auto; border-radius: 8px; object-fit: cover; display: block; } 
 
-.destination-image img {
-  width: 100%;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
+
 
 .city-tabs {
   display: flex;
@@ -406,29 +383,111 @@ nav a:hover {
 
 
 
-.calendar-layout { display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap; }
-.calendar-image img { width: 300px; border-radius: 8px; object-fit: cover; }
-.month-prices { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.month-prices li { background: #f9f9f9; padding: 12px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-.month-prices li.highlight { background: #d4edda; border: 2px solid #28a745; } 
-.month-prices strong { display: block; font-size: 16px; margin-bottom: 5px; } 
-.month-prices span { font-size: 15px; color: #000; } 
-.all-months { display: block; margin: 20px auto 0; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; } 
-<!----> 
-.price-calendar {flex: 1; max-width: 1000px; margin: 40px auto; padding: 20px; background: rgba(255, 255, 255, 0.9); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-family: Arial, sans-serif; } 
-.calendar-layout { display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap; } 
-.calendar-image img { width: 300px; border-radius: 8px; object-fit: cover; } 
-.month-prices { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; } 
-.month-prices li { background: #f9f9f9; padding: 12px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); } 
-.month-prices strong { display: block; font-size: 16px; margin-bottom: 5px; } 
-.month-prices span { font-size: 15px; color: #333; } 
-.all-months { margin-top: 30px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; } 
-.calendar-container { display: flex; gap: 30px; align-items: center; flex-wrap: wrap; max-width: 1000px; margin: 40px auto; } 
-.destination-image img { width: 100%; max-width: 600px; justify-content: center; height: auto; border-radius: 8px; object-fit: cover; display: block; } 
-.month-prices { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; /* ← EZ legyen 1 oszlop */ gap: 15px; } 
-.month-prices li { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; /* EGY oszlop */ gap: 15px; } 
-.month-prices strong { display: block; font-size: 16px; margin-bottom: 5px; }
+
+/* Calendar container */
+.calendar-container {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 40px auto;
+}
+
+/* Calendar layout */
+.calendar-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Calendar image */
+.calendar-image img {
+  width: 300px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Destination image */
+.destination-image img {
+  width: 100%;
+  max-width: 600px;
+  justify-content: center;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Price calendar */
+.price-calendar {
+  flex: 1;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Month prices */
+.month-prices {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr; /* egy oszlop */
+  gap: 15px;
+  flex: 1;
+}
+.month-prices li {
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  padding: 10px;
+}
+.month-prices li.highlight {
+  background: #d4edda;
+  border: 2px solid #28a745;
+}
+.month-prices strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+/* All months button */
+.all-months {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.all-months:hover {
+  background: #0056b3;
+}
+
  .month-prices span { font-size: 15px; color: #333; }
+.month-prices li {
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+
+  /* A paddingnél az utolsó volt a helyes, tehát 0 */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  grid-template-columns: 1fr; /* EGY oszlop */
+  gap: 15px;
+}
 
 /* Teljes naptár konténer */
 #calendar {
@@ -560,3 +619,44 @@ nav a:hover {
   object-fit: contain;
 }
 
+<!---->
+.destinations {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.destinations h2 {
+  margin-bottom: 10px;
+}
+
+.destinations p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.top-row,
+.bottom-row {
+  display: flex;              /* egymás mellé teszi a kártyákat */
+  justify-content: center;    /* középre igazítja */
+  gap: 15px;                  /* térköz a kártyák között */
+  margin-bottom: 15px;
+}
+
+.destination-card {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  flex: 1;                    /* rugalmasan osztja el a helyet */
+  min-width: 120px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.destination-card:hover {
+  transform: scale(1.05);     /* kis nagyítás hoverre */
+  background-color: #e0e0e0;
+}
