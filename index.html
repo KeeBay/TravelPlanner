@@ -101,41 +101,28 @@
 
 
   <!---________________________________________________-->
-<div class="travel-advice">
-  <h2>Fedezd fel a legjobb időszakot a következő foglalásodhoz</h2>
-  <div class="city-tabs">
-    <button class="active">Bécs</button>
-    <button>Budapest</button>
-    <button>Sharm el-Sheikh</button>
-    <button>Prága</button>
-    <button>Dubaj</button>
-    <button>Zakopane</button>
-    <button>Barcelona</button>
-    <button>Róma</button>
-    <button>London</button>
-    <button>Párizs</button>
+
+  <div class="destinations">
+  <h2>Felkapott úti célok</h2>
+  <p>Magyarországról érkező utazóink körében ezek a legnépszerűbbek</p>
+
+  <div class="top-row">
+    <div class="destination-card">Eger</div>
+    <div class="destination-card">Budapest</div>
   </div>
 
-  <div class="calendar-container">
-  <div class="destination-image">
-    <img src="becs.PNG" alt="Bécs">
-  </div>
-
-    <div class="price-calendar">
-    <ul class="month-prices">
-      <li><strong>Dec.</strong><span>49 195 Ft – 158 560 Ft</span></li>
-      <li><strong>Dec.</strong><span>49 195 Ft – 158 560 Ft</span></li>
-      <li><strong>Dec.</strong><span>49 195 Ft – 158 560 Ft</span></li>
-      <li><strong>Dec.</strong><span>49 195 Ft – 158 560 Ft</span></li>
-      <li><strong>Dec.</strong><span>49 195 Ft – 158 560 Ft</span></li>
-    </ul>
+  <div class="bottom-row">
+    <div class="destination-card">Bécs</div>
+    <div class="destination-card">Szeged</div>
+    <div class="destination-card">Prága</div>
   </div>
 </div>
 
 
-    <button class="all-months">Minden hónap</button>
-  </div>
 
+
+
+<!--___________________________________________________-->
 
 
 
@@ -162,6 +149,7 @@
   window.addEventListener("click", (event) => {
     if (event.target === modal) {
       modal.style.display = "none";
+
     }
   });
 </script>
@@ -169,3 +157,22 @@
   
 </body>
 </html>
+<!-- 
+city → <input type="text" id="city" name="city">
+
+price → <select id="price" name="price">
+
+értékek: low, mid, high
+
+days → <select id="days" name="days">
+
+értékek: 1, 2, 3plus
+
+guests → <select id="guests" name="guests">
+
+értékek: 1, 2,
+
+<button type="submit">Szűrés</button>
+
+
+-->
