@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Regisztráció</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="kov.spec.html">Követelmény specifikáció</a></li>
+        <li><a href="bejelentkezes.html">Bejelentkezés</a></li>
+        <li><a href="naptar.html">Naptár</a></li>
+        <li><a href="index.html">Index</a></li>
+        <li><a href="regisztracio.html">Regisztráció</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="login-container">
+    <h2>Regisztráció</h2>
+    <form>
+      <div class="form-group">
+        <label for="vnev">Vezetéknév</label>
+        <input type="text" id="vnev" name="vnev" required>
+      </div>
+      <div class="form-group">
+        <label for="knev">Keresztnév</label>
+        <input type="text" id="knev" name="knev" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email cím</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+  <label for="b_date">Születési idő</label>
+  <input type="date" id="b_date" name="b_date" required>
+</div>
+
+
+
+
+      
+      <div class="form-group">
+        <label for="phone">Telefonszám</label>
+        <input type="tel" id="phone" name="phone" 
+               pattern="[0-9]{9,15}" 
+               maxlength="15"
+               placeholder="06201234567" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Jelszó</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="form-group">
+        <label for="confirm-password">Jelszó megerősítése</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+      </div>
+
+      <button type="submit">Regisztráció</button>
+    </form>
+  </div>
+</body>
+<script>
+  const bDateInput = document.getElementById('b_date');
+  const today = new Date();
+
+  // Számoljuk ki a legkorábbi engedélyezett dátumot (mai nap - 120 év)
+  const minDate = new Date(today.getFullYear() - 120, today.getMonth(), today.getDate());
+
+  // Formázzuk YYYY-MM-DD alakban
+  const minDateStr = minDate.toISOString().split('T')[0];
+  const maxDateStr = today.toISOString().split('T')[0];
+
+  // Beállítjuk a határokat
+  bDateInput.setAttribute('min', minDateStr);
+  bDateInput.setAttribute('max', maxDateStr);
+</script>
+</html>
