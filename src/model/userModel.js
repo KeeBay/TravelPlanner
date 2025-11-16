@@ -10,11 +10,6 @@ const User = sequelize.define('Users', {
         primaryKey: true
     },
 
-    username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-
      first_name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -38,7 +33,7 @@ const User = sequelize.define('Users', {
 
     birth: {
         type: DataTypes.DATEONLY,
-        allowNull: true
+        allowNull: false
     },
 
     phone_number: {

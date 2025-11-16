@@ -1,65 +1,30 @@
-let registrationRestrictions = {};
+const Joi = require('joi');
+//'[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+( [A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+)+'
+const schema = Joi.object({
+    
+    first_name: Joi.string()
+    .pattern(new RegExp('^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$'))
+    .required(),
 
-const regexUsername = "[\-\'A-Za-z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+";
-const regexPassword = /^(?=.*[a-z+áéíóöőúüű])(?=.*[A-Z+ÁÉÍÓÖŐÚÜŰ])(?=.*\d).+$/;
+    last_name: Joi.string()
+    .pattern(new RegExp('^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$'))
+    .required(),
 
-registrationRestrictions.username = () => {
+    password: Joi.string()
+    .pattern(new RegExp('^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0-9!@#$%^&*()_+{}\\[\\]:;<>,.?~\\-]{8,}$'))
+    .required(),
 
-    const restriction = {
-        'presence': {
-            allowEmpty: false,
-            message: "Kötelező megadni felhasználónevet!"
-        },
-        'type': 'string',
-        'length':{
-            'minimum': 10,
-            'maximum':32,
-            'message': 'A felhasználónév túl rövid vagy túl hosszú! A felhasználónévnek 10 és 32 karakterhossz közöttinek kell lennie!'
-        },
-        'format': {
-            'pattern' : regexUsername,
-            'flags' : 'i',
-            'message':'A felhasználónévnek a következő sémát kell követnie: Nagybetű A-Z, kisbetű a-z, számok 0-9'
-        }
-    }
+    passwordAgain: Joi.ref('password'),
 
-    return restriction;
-}
+    email: Joi.string()
+    .email({minDomainSegments: 2}),
 
-registrationRestrictions.email = () => {
+    date: Joi.string().isoDate().required(),
 
-    const restriction = {
-        'presence': {
-            allowEmpty: false,
-            message: "Kötelező megadni jelszót!"
-        },
-        'type': 'string',
-        'email':true
-    }
+    phone_number: Joi.string()
+    .pattern(new RegExp('^\\+?[0-9]{10,15}$')) // Példa egy egyszerű telefonszám formátumra
+    .optional()
+})
+.with('password', 'passwordAgain');
 
-    return restriction;
-
-}
-
-registrationRestrictions.password = () => {
-    const restriction = {
-        'presence': {
-            allowEmpty: false,
-            message: "Kötelező megadni jelszót!"
-        },
-        'type': 'string',
-        'length':{
-            'minimum': 10,
-            message: "A jelszónak legalább 10 karakter hosszúnak kell lennie!"
-        },
-        'format': {
-            'pattern' : regexPassword,
-            'flags' : 'i',
-            'message': "A jelszónak a következő karaktereket kell tartalmaznia: Kisbetű, nagybetű, szám."
-        }
-    }
-
-    return restriction;
-}
-
-module.exports = registrationRestrictions;
+module.exports = schema;
