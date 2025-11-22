@@ -22,7 +22,7 @@ const schema = Joi.object({
     date: Joi.string().isoDate().required(),
 
     phone_number: Joi.string()
-    .pattern(new RegExp('^\\+?[0-9]{10,15}$')) // Példa egy egyszerű telefonszám formátumra
+    .pattern(new RegExp('^\\+?[0-9]{10,15}$'))
     .optional()
 })
 .with('password', 'passwordAgain');

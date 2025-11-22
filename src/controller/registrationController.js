@@ -17,18 +17,13 @@ async function registrationPUTController (req, res){
     const userData = req.body;
 
     const { error, value } = restrictions.validate(userData, { abortEarly: false });
-    // Az `abortEarly: false` beállítással az összes hibát megkapod egyszerre, nem csak az elsőt.
-
     if (error) {
-        // 3. Ha van hiba, visszaküldjük a hibakódot és az üzeneteket
         console.error('Validation Error:', error.details);
         return res.status(400).json({
             message: 'Validation failed',
-            details: error.details.map(detail => detail.message) // Csak a hibaüzeneteket gyűjtjük ki
+            details: error.details.map(detail => detail.message)
         });
     }
-
-    // 4. Ha a validáció sikeres, folytathatjuk a felhasználó létrehozásával
     console.log('Valid adatok:', value);
 
 

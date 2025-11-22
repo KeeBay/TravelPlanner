@@ -5,6 +5,7 @@ const sequelize = require('./dbConnection');
 const userModel = require('./model/userModel.js');
 
 const registrationRouter = require("./route/registrationRoute");
+const loginRouter = require("./route/loginRoute");
 
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.json());
 const PORT = 3000;
 
 app.use("/",registrationRouter);
+app.use("/", loginRouter);
 
 sequelize.authenticate().then(() => {
   console.log('Sikeres kapcsolat az adatbázissal!');
