@@ -1,6 +1,7 @@
 const userModel = require('../model/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const blacklist = require('../model/blacklistModel');
 
 async function loginPostController(req, res) {
     let {email, password} = req.body;
@@ -78,4 +79,30 @@ async function loginPostController(req, res) {
     });
 }
 
-module.exports = {loginPostController};
+async function logOutPostController(req, res) {
+
+    const token =  req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.decode(token);
+     try  {
+            logoutedToken = await blacklist.build({
+                token: token,
+                expiresAt: new Date(decodedToken.exp * 1000)
+            })
+            await logoutedToken.save();
+
+            res.status(200).json({
+                success: true,
+                message: "Successful Logout!",
+            });
+        }
+    catch (error) {
+            console.log(error)
+            res.status(500).json({
+                error: true,
+                status: 500,
+                message: "Szerver hiba"
+            })
+        }
+}
+
+module.exports = {loginPostController, logOutPostController};
