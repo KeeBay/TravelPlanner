@@ -5,7 +5,12 @@
   <title>Szállásajánlatok</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.rtl.min.css" integrity="sha384-CfCrinSRH2IR6a4e6fy2q6ioOX7O6Mtm1L9vRvFZ1trBncWmMePhzvafv7oIcWiW" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
-  <script src="app.js" defer></script>
+  <!--<script src="app.js" defer></script>-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
 </head>
 <body>
   <header>
@@ -53,11 +58,12 @@
     </select>
 
     <button type="submit">Szűrés</button>
+    <button type="button" id="tourismBtn" class="btn btn-success tourism-toggle">Aktív turizmus</button>
   </form>
 </section>
 
 
-  <!-- Egyesített kártyarész -->
+  
   <main class="wrapper">
     <section id="combined-cards">
       <div class="cards-header">
@@ -80,78 +86,379 @@
       </div>
     </section>
   </main>
-  <!-- Modal -->
-  <div id="modal" class="modal">
-  <div class="modal-content">
-    <span id="close-btn">&times;</span>
+ 
+ 
 
-    <div class="modal-image-wrapper">
-      <img id="modal-img" src="" alt="Szállás kép">
-      <span id="modal-varos" class="city-label">Város neve</span>
-    </div>
+<div id="modal" class="modal">
+  <div class="modal-content">
+
+    
+    <span id="close-btn" class="close">&times;</span>
+
+    
+    <h3 id="modal-varos" class="modal-title">Város neve</h3>
+    <p id="modal-weather">Időjárás: betöltés...</p>
+
+    
+    <div id="modal-map" style="height:300px; margin-top:10px;"></div>
 
     <div class="modal-details">
-      <p id="modal-ejszakak">Nincs megadva éjjszaka</p>
-      <p id="modal-ar">Nincs megadva ár</p>
-      
-    </div>
+  <p id="modal-ejszakak">Nincs megadva éjszaka</p>
+  <p id="modal-ar">Nincs megadva ár</p>
+  
+</div>
+
+
   </div>
 </div>
 
 
 
-  <!---________________________________________________-->
 
   <div class="destinations">
   <h2>Felkapott úti célok</h2>
   <p>Magyarországról érkező utazóink körében ezek a legnépszerűbbek</p>
 
   <div class="top-row">
-    <div class="destination-card">Eger</div>
-    <div class="destination-card">Budapest</div>
+    <a href="https://example.com/eger-aktiv-turizmus" style="background-image: url('becs.PNG');" target="_blank" class="destination-link">Eger</a>
+    <a href="https://example.com/budapest-aktiv-turizmus" style="background-image: url('becs.PNG');"  target="_blank" class="destination-link">Budapest</a>
   </div>
 
   <div class="bottom-row">
-    <div class="destination-card">Bécs</div>
-    <div class="destination-card">Szeged</div>
-    <div class="destination-card">Prága</div>
+    <a href="https://example.com/becs-aktiv-turizmus" style="background-image: url('becs.PNG');" target="_blank" class="destination-link">Bécs</a>
+    <a href="https://example.com/szeged-aktiv-turizmus" style="background-image: url('becs.PNG');" target="_blank" class="destination-link">Szeged</a>
+    <a href="https://example.com/praga-aktiv-turizmus" style="background-image: url('becs.PNG');" target="_blank" class="destination-link">Prága</a>
   </div>
 </div>
 
 
 
 
-
-<!--___________________________________________________-->
-
+<hr>
+<footer class="footer  text-light py-4">
+  <div class="container">
+    <div class="row">
+      
+      
+      <div class="col-md-4">
+        <h5>Hasznos linkek</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-light">Névjegyzék</a></li>
+          <li><a href="#" class="text-light">Applikáció</a></li>
+        </ul>
+      </div>
+      
+      
+      <div class="col-md-4">
+        <h5>Népszerű oldal</h5>
+        <p><a href="#" class="text-light">Gyakran ismételt kérdések</a></p>
+      </div>
+      
+    
+      <div class="col-md-4">
+        <h5>Elérhetőség</h5>
+        <p>Email: info@szallas.hu</p>
+        <p>Telefon: +36 30 123 4567</p>
+        <div class="social-icons d-flex gap-3">
+          <a href="#"><img src="facebook.png" alt="Facebook" width="30"></a>
+          <a href="#"><img src="instagram.png" alt="Instagram" width="30"></a>
+          <a href="#"><img src="tiktok.png" alt="TikTok" width="30"></a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</footer>
 
 
 <script>
-  const modal = document.getElementById("modal");
-  const closeBtn = document.getElementById("close-btn");
+  
+    const szallasok = [
+  { varos: "Budapest", ejszakak: 2, ar: 20000, kep: "repulogep.png", lat: 47.4979, lng: 19.0402 },
+  { varos: "Eger", ejszakak: 3, ar: 15000, kep: "repulogep.png", lat: 47.9025, lng: 20.3733 },
+  { varos: "Szeged", ejszakak: 1, ar: 10000, kep: "repulogep.png", lat: 46.253, lng: 20.1414 },
+  { varos: "Pécs", ejszakak: 4, ar: 25000, kep: "repulogep.png", lat: 46.072, lng: 18.233 },
+  { varos: "Debrecen", ejszakak: 2, ar: 18000, kep: "repulogep.png", lat: 47.5316, lng: 21.6273 }
+];
 
-  // Kártya gombok (pl. minden "Megnézem" gomb a kártyákon)
-  const openBtns = document.querySelectorAll(".open-modal");
 
-  // Megnyitás
-  openBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      modal.style.display = "block";
+    let activeTourism = true;
+
+    const API_KEY = ""; 
+
+async function fetchRecommendation(city, type) {
+  try {
+    
+    const tourismText = activeTourism 
+      ? "aktív turizmusban ajánlást 25 karaktert" 
+      : "passzív turizmusban ajánlást 25 karaktert";
+
+    
+    const inputText = `Turista vagyok és ${city}-ben szeretnék ${tourismText}`;
+
+    
+    const res = await fetch("https://api-inference.huggingface.co/models/gpt2", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ inputs: inputText })
     });
-  });
 
-  // Bezárás X gombbal
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
+    const data = await res.json();
+    console.log(data);
 
-  // Bezárás ha a háttérre kattintasz
-  window.addEventListener("click", (event) => {
-    if (event.target === modal) {
-      modal.style.display = "none";
+    const text = data[0]?.generated_text || "Ajánlás nem érhető el";
+    return text.slice(0, 25).trim();
+  } catch (e) {
+    console.error("API hiba:", e);
+    return "Hiba az ajánlásnál";
+  }
+}
 
+
+    async function renderCards(data, containerSelector) {
+      const container = document.querySelector(containerSelector);
+      container.innerHTML = '';
+
+      for (const szallas of data) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.setAttribute('data-price', szallas.ar);
+
+        card.innerHTML = `
+          <div class="card">
+            <div class="city-image-wrapper">
+              <img src="${szallas.kep}" alt="${szallas.varos}">
+              <span class="city-label"><strong>${szallas.varos}</strong></span>
+            </div>
+            <div class="card-info">
+              <p class="ajanlas">Ajánlás betöltése...</p>
+              <div class="price-btn">
+                <button class="megnezem-btn">Megnézem</button>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+
+        const btn = card.querySelector('.megnezem-btn');
+        btn.addEventListener('click', () => openModal(szallas));
+
+        const type = activeTourism ? "active" : "passive";
+        const rec = await fetchRecommendation(szallas.varos, type);
+        card.querySelector(".ajanlas").textContent = rec;
+      }
     }
+
+    
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    function sortByPrice(order) {
+      let sorted = [...szallasok];
+      if (order === 'asc') {
+        sorted.sort((a, b) => a.ar - b.ar);
+      } else if (order === 'desc') {
+        sorted.sort((a, b) => b.ar - a.ar);
+      }
+      return sorted;
+    }
+
+    function initSliders() {
+      const sliders = document.querySelectorAll('.slider-wrapper');
+      sliders.forEach(slider => {
+        const container = slider.querySelector('.cards-container');
+        const btnLeft = slider.querySelector('.slide-btn.left');
+        const btnRight = slider.querySelector('.slide-btn.right');
+        if (!container || !btnLeft || !btnRight) return;
+        const scrollAmount = container.clientWidth / 1.2;
+        btnLeft.addEventListener('click', () => {
+          container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+        btnRight.addEventListener('click', () => {
+          container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('close-btn').addEventListener('click', closeModal);
+      renderCards(szallasok, '#combined-cards .cards-container');
+      initSliders();
+
+      const sortSelect = document.getElementById('sort-price');
+      sortSelect.addEventListener('change', (e) => {
+        const value = e.target.value;
+        let sorted;
+        if (value === 'asc' || value === 'desc') {
+          sorted = sortByPrice(value);
+        } else {
+          sorted = [...szallasok];
+        }
+        renderCards(sorted, '#combined-cards .cards-container');
+        initSliders();
+      });
+
+      const tourismBtn = document.getElementById("tourismBtn");
+      tourismBtn.addEventListener("click", () => {
+        activeTourism = !activeTourism;
+        if (activeTourism) {
+          tourismBtn.textContent = "Aktív turizmus";
+          tourismBtn.classList.remove("btn-secondary");
+          tourismBtn.classList.add("btn-success");
+        } else {
+          tourismBtn.textContent = "Passzív turizmus";
+          tourismBtn.classList.remove("btn-success");
+          tourismBtn.classList.add("btn-secondary");
+        }
+        renderCards(szallasok, '#combined-cards .cards-container');
+      });
+    });
+
+    const cityImages = {
+      "Eger": "becs.png",
+      "Budapest": "becs.png",
+      "Bécs": "becs.png",
+      "Szeged": "becs.png",
+      "Prága": "becs.png"
+    };
+
+    const cards = document.querySelectorAll(".destination-card");
+    cards.forEach(card => {
+      const cityName = card.textContent.trim();
+      if (cityImages[cityName]) {
+        card.style.backgroundImage = `url(${cityImages[cityName]})`;
+        card.style.backgroundSize = "cover";
+        card.style.backgroundPosition = "center";
+        card.style.color = "white";
+        card.style.textShadow = "1px 1px 3px black";
+        card.style.minHeight = "120px";
+        card.style.display = "flex";
+        card.style.alignItems = "center";
+        card.style.justifyContent = "center";
+      }
+    });
+   let modalMap;
+let routingControl;
+
+
+async function getWeather(lat, lng) {
+  const API_KEY = ""; 
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&lang=hu&appid=${API_KEY}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const weatherText = `${data.weather[0].description}, ${data.main.temp}°C`;
+    document.getElementById('modal-weather').textContent = `Időjárás: ${weatherText}`;
+  } catch (err) {
+    console.error(err);
+    document.getElementById('modal-weather').textContent = "Időjárás nem elérhető";
+  }
+}
+async function getWeather(lat, lng) {
+  const API_KEY = "b3b282d3f1d1fdaeae82c98a279b4df7"; 
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&lang=hu&appid=${API_KEY}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    let emoji = "❓"; 
+    const weatherMain = data.weather[0].main.toLowerCase();
+
+    
+    if (weatherMain.includes("clear")) {
+      emoji = "☀️";
+    } else if (weatherMain.includes("clouds")) {
+      emoji = "☁️";
+    } else if (weatherMain.includes("rain")) {
+      emoji = "🌧️";
+    } else if (weatherMain.includes("snow")) {
+      emoji = "❄️";
+    } else if (weatherMain.includes("thunderstorm")) {
+      emoji = "⛈️";
+    } else if (weatherMain.includes("drizzle")) {
+      emoji = "🌦️";
+    } else if (weatherMain.includes("mist") || weatherMain.includes("fog")) {
+      emoji = "🌫️";
+    }
+
+    const temp = Math.round(data.main.temp);  
+    const weatherText = `${emoji} ${temp}°C`;
+
+    document.getElementById('modal-weather').textContent = weatherText;
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('modal-weather').textContent = "Időjárás nem elérhető";
+  }
+}
+
+function openModal(szallas) {
+ 
+  document.getElementById('modal-varos').textContent = szallas.varos;
+  document.getElementById('modal-ejszakak').textContent = `Éjszakák száma: ${szallas.ejszakak}`;
+  document.getElementById('modal-ar').textContent = `Ár: ${szallas.ar.toLocaleString()} Ft`;
+  document.getElementById('modal-weather').textContent = "Időjárás: betöltés...";
+  document.getElementById('modal').style.display = 'block';
+
+  
+  getWeather(szallas.lat, szallas.lng);
+
+  
+  if (!modalMap) {
+    modalMap = L.map('modal-map', {
+      dragging: true,          
+      scrollWheelZoom: true,   
+      doubleClickZoom: true,   
+      boxZoom: true,           
+      keyboard: true,          
+      zoomControl: true        
+    }).setView([szallas.lat, szallas.lng], 7);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(modalMap);
+  } else {
+    modalMap.setView([szallas.lat, szallas.lng], 7);
+  }
+
+  
+  setTimeout(() => {
+    modalMap.invalidateSize();
+  }, 200);
+
+  
+  navigator.geolocation.getCurrentPosition(pos => {
+    const userLat = pos.coords.latitude;
+    const userLng = pos.coords.longitude;
+
+    
+    if (routingControl) {
+      modalMap.removeControl(routingControl);
+    }
+
+    routingControl = L.Routing.control({
+      waypoints: [
+        L.latLng(userLat, userLng),
+        L.latLng(szallas.lat, szallas.lng)
+      ],
+      routeWhileDragging: false,
+      draggableWaypoints: false,  
+      addWaypoints: false,        
+      show: false
+    }).addTo(modalMap);
+  }, err => {
+    console.warn("Nem sikerült lekérni a helyzetet:", err.message);
   });
+}
+
+
 </script>
 
   
