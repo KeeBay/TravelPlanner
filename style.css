@@ -1,4 +1,4 @@
-/* Alapbeállítások */
+
 html, body {
   margin: 0;
   padding: 0;
@@ -20,7 +20,7 @@ html, body {
 
 .modal-image-wrapper img {
   max-width: 100%;
-  max-height: 300px;
+  max-height: 350px;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -56,21 +56,21 @@ html, body {
   background-color: #0056b3;
 }
 .modal {
-  display: none;          /* alapból rejtve */
+  display: none;           
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5); /* átlátszó háttér */
+  background: rgba(0,0,0,0.5); 
 }
 
-/* Fejléc */
+
 header img {
   width: 100%;
   height: 250px;
   object-fit: cover;
 }
 
-/* Navigáció */
+
 nav {
   position: sticky;
   top: 0;
@@ -101,7 +101,7 @@ nav a:hover {
   background-color: #555;
 }
 
-/* Szűrősáv */
+
 .filter-bar {
   background-color: rgba(255, 255, 255, 0);
   padding: 15px 20px;
@@ -136,14 +136,14 @@ nav a:hover {
   background-color: #007bff;
 }
 
-/* Tartalom */
+
 .wrapper {
   width: 100%;
   margin: 0;
   padding: 0;
 }
 
-/* Kártyarész */
+
 #combined-cards {
   width: 100%;
   padding: 20px 0;
@@ -161,7 +161,7 @@ nav a:hover {
 .cards-header h2 {
   margin: 0;
   font-size: 24px;
-  color: #333;
+  color: #fff;
 }
 
 .cards-header select {
@@ -171,7 +171,7 @@ nav a:hover {
   font-size: 16px;
 }
 
-/* Slider */
+
 .slider-wrapper {
   position: relative;
   overflow: hidden;
@@ -180,20 +180,19 @@ nav a:hover {
 
 .cards-container {
   display: flex;
-  flex-wrap: nowrap; /* ⬅️ Tördelje sorba a kártyákat */
+  flex-wrap: nowrap; 
   gap: 15px;
-  overflow: hidden; /* ⛔ Ne legyen scroll */
+  overflow: hidden; 
   padding: 0 20px;
   box-sizing: border-box;
 }
 
 
-/* Kártyák */
+
 .card {
-  flex: 0 0 300px;                 /* Fix szélesség, ne zsugorodjon */
-  min-width: 250px;
-  background: rgba(255, 255, 255, 0.4); /* Átlátszó háttér */
-  backdrop-filter: blur(6px);     /* Üveghatás */
+  flex: 0 0 300px;                 
+  background: rgba(255, 255, 255, 0.4); 
+  backdrop-filter: blur(6px);     
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   padding: 15px;
@@ -212,11 +211,11 @@ nav a:hover {
 }
 
 .card img {
-  width: 100%;          /* a szülő elem szélességéhez igazodik */
-  height: auto;         /* arányosan változik a magasság */
-  object-fit: cover;    /* kitölti a rendelkezésre álló teret */
-  border-radius: 6px;   /* lekerekített sarkok */
-  max-width: 250px;     /* opcionális felső korlát */
+  width: 100%;          
+  height: auto;         
+  object-fit: cover;   
+  border-radius: 6px;  
+  max-width: 250px;    
 }
 
 
@@ -239,7 +238,7 @@ nav a:hover {
   background: #0056b3;
 }
 
-/* Nyíl gombok */
+
 .slide-btn {
   position: absolute;
   top: 50%;
@@ -268,11 +267,11 @@ nav a:hover {
   right: 5px;
 }
 
-/* Modal */
+
 .modal {
   display: none;
   position: fixed;
-  z-index: 2000;
+  z-index: 1500;
   left: 0;
   top: 0;
   width: 100%;
@@ -283,7 +282,7 @@ nav a:hover {
 .modal-content {
   background: #fff;
   margin: 5% auto;
-  padding: 20px;
+  padding: 10px;
   width: 80%;
   max-width: 600px;
   border-radius: 10px;
@@ -299,7 +298,7 @@ nav a:hover {
   cursor: pointer;
 }
 
-/* Reszponzív */
+
 @media (max-width: 1000px) {
   .card {
     flex: 0 0 calc(50% - 15px);
@@ -383,8 +382,43 @@ nav a:hover {
 
 
 
+.destinations .top-row, 
+.destinations .bottom-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-/* Calendar container */
+.destination-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 300px;
+  min-height: 170px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  text-shadow: 1px 1px 3px black;
+  border-radius: 8px;
+  
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.destination-link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+
+#calendar {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
 .calendar-container {
   display: flex;
   gap: 30px;
@@ -394,7 +428,7 @@ nav a:hover {
   margin: 40px auto;
 }
 
-/* Calendar layout */
+
 .calendar-layout {
   display: flex;
   gap: 30px;
@@ -402,14 +436,14 @@ nav a:hover {
   flex-wrap: wrap;
 }
 
-/* Calendar image */
+
 .calendar-image img {
   width: 300px;
   border-radius: 8px;
   object-fit: cover;
 }
 
-/* Destination image */
+
 .destination-image img {
   width: 100%;
   max-width: 600px;
@@ -420,7 +454,7 @@ nav a:hover {
   display: block;
 }
 
-/* Price calendar */
+
 .price-calendar {
   flex: 1;
   max-width: 1000px;
@@ -432,13 +466,12 @@ nav a:hover {
   font-family: Arial, sans-serif;
 }
 
-/* Month prices */
 .month-prices {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: 1fr; /* egy oszlop */
+  grid-template-columns: 1fr; 
   gap: 15px;
   flex: 1;
 }
@@ -458,7 +491,7 @@ nav a:hover {
   margin-bottom: 5px;
 }
 
-/* All months button */
+
 .all-months {
   display: block;
   margin: 20px auto 0;
@@ -473,56 +506,54 @@ nav a:hover {
   background: #0056b3;
 }
 
- .month-prices span { font-size: 15px; color: #333; }
+ .month-prices span { font-size: 15px; color: #f6f6f6; }
 .month-prices li {
   background: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-
-  /* A paddingnél az utolsó volt a helyes, tehát 0 */
   list-style: none;
   padding: 0;
   margin: 0;
 
   display: grid;
-  grid-template-columns: 1fr; /* EGY oszlop */
+  grid-template-columns: 1fr; 
   gap: 15px;
 }
 
-/* Teljes naptár konténer */
+
 #calendar {
-  background-color: #f0f8ff;   /* világoskék háttér */
+  background-color: #f0f8ff;   
   padding: 10px;
   border-radius: 8px;
 }
 
-/* Napok háttere */
+
 .fc-daygrid-day {
-  background-color: #ffffff;   /* fehér háttér minden napnak */
+  background-color: #ffffff;   
 }
 
-/* Hétvégék kiemelése */
+
 .fc-day-sun, .fc-day-sat {
-  background-color: #ffe6e6;   /* halványpiros hétvégék */
+  background-color: #ffe6e6;   
 }
 
-/* Fejléc (napok nevei) */
+
 .fc-col-header-cell {
-  background-color: #fdfdfd;   /* halványkék háttér a napok neveinek */
-  color: #333;                 /* sötétszürke betűszín */
+  background-color: #fdfdfd;   
+  color: #333;                 
   font-weight: bold;
 }
 
-/* Hónap címe */
+
 .fc-toolbar-title {
-  color: #2c3e50;              /* sötétkék cím */
+  color: #2c3e50;              
   font-size: 1.4em;
   font-weight: bold;
 }
 
-/* Navigációs gombok (prev, next, today) */
+
 .fc-button {
-  background-color: #007bff;   /* kék gomb */
+  background-color: #007bff;   
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -530,12 +561,12 @@ nav a:hover {
 }
 
 .fc-button:hover {
-  background-color: #0056b3;   /* sötétebb kék hover */
+  background-color: #0056b3;    
 }
 
-/* Események megjelenése */
+
 .fc-event {
-  background-color: #28a745;   /* zöld esemény háttér */
+  background-color: #28a745; 
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -609,7 +640,7 @@ nav a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px; /* vagy amekkora a kártya magassága */
+  height: 200px;  
   width: 100%;
 }
 
@@ -621,26 +652,27 @@ nav a:hover {
 
 <!---->
 .destinations {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 5px;
   font-family: Arial, sans-serif;
 }
 
 .destinations h2 {
   margin-bottom: 10px;
+  color:#fff;
 }
 
 .destinations p {
   margin-bottom: 20px;
-  color: #555;
+  color: #fff;
 }
 
 .top-row,
 .bottom-row {
-  display: flex;              /* egymás mellé teszi a kártyákat */
-  justify-content: center;    /* középre igazítja */
-  gap: 15px;                  /* térköz a kártyák között */
+  display: flex;              
+  justify-content: center;    
+  gap: 15px;                  
   margin-bottom: 15px;
 }
 
@@ -650,13 +682,13 @@ nav a:hover {
   padding: 20px;
   text-align: center;
   font-weight: bold;
-  flex: 1;                    /* rugalmasan osztja el a helyet */
+  flex: 1;                     
   min-width: 120px;
   cursor: pointer;
   transition: transform 0.2s;
 }
 
 .destination-card:hover {
-  transform: scale(1.05);     /* kis nagyítás hoverre */
+  transform: scale(1.05);     
   background-color: #e0e0e0;
 }
