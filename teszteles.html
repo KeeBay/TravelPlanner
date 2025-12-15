@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Belépés</h1>
+    <hr>
+    <table border="1" cellspacing="0" cellpadding="6">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Teszt típusa</th>
+                <th>Teszt eset</th>
+                <th>Bemenet</th>
+                <th>Lépések</th>
+                <th>Várt eredmény</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Pozitív</td>
+                <td>Sikeres bejelentkezés</td>
+                <td>Létező felhasználónév + helyes jelszó</td>
+                <td>1. Login oldal megnyitása<br>2. Felhasználónév beírása<br>3. Jelszó beírása<br>4. Belépés gombra
+                    kattintás</td>
+                <td>JSON válasz tokennel, token mentve localStorage-ba, alert: "✔ Sikeres bejelentkezés!"</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td>Pozitív</td>
+                <td>JSON megjelenítés ellenőrzés</td>
+                <td>Érvényes adatok</td>
+                <td>1–4 ugyanaz, mint az 1. esetben</td>
+                <td>A
+                    <pre id="jsonOutput"></pre> mezőben formázott JSON jelenik meg
+                </td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td>Negatív</td>
+                <td>Hibás jelszó</td>
+                <td>Létező felhasználónév + rossz jelszó</td>
+                <td>1–4</td>
+                <td>Alert: "❌ Hibás adatok!"</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td>Negatív</td>
+                <td>Hibás felhasználónév</td>
+                <td>Nem létező felhasználónév + bármilyen jelszó</td>
+                <td>1–4</td>
+                <td>Alert: "❌ Hibás adatok!"</td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td>Negatív</td>
+                <td>Üres felhasználónév</td>
+                <td>Felhasználónév üres + jelszó kitöltve</td>
+                <td>1–4</td>
+                <td>Form nem küldődik — HTML5 validáció</td>
+            </tr>
+
+            <tr>
+                <td>6</td>
+                <td>Negatív</td>
+                <td>Üres jelszó</td>
+                <td>Felhasználónév kitöltve + jelszó üres</td>
+                <td>1–4</td>
+                <td>Form nem küldődik — HTML5 validáció</td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+                <td>Negatív</td>
+                <td>Üres felhasználónév és jelszó</td>
+                <td>Minden bemenet üres</td>
+                <td>1–4</td>
+                <td>Form nem küldődik — HTML5 validáció</td>
+            </tr>
+
+            <tr>
+                <td>8</td>
+                <td>Negatív</td>
+                <td>Server hiba</td>
+                <td>Bármilyen adat, backend offline</td>
+                <td>1–4</td>
+                <td>Alert: "❌ Hiba történt a küldés közben!", console error log</td>
+            </tr>
+
+            <tr>
+                <td>9</td>
+                <td>Negatív</td>
+                <td>Nem JSON válasz</td>
+                <td>Bármilyen adat, backend nem JSON</td>
+                <td>1–4</td>
+                <td>Console error: "Unexpected token ... in JSON"</td>
+            </tr>
+
+            <tr>
+                <td>10</td>
+                <td>Határérték</td>
+                <td>Minimális karakter hossz</td>
+                <td>Felhasználónév: 1 karakter, jelszó: 1 karakter</td>
+                <td>1–4</td>
+                <td>Form elküldhető, backend dönti el a sikerességet</td>
+            </tr>
+
+            <tr>
+                <td>11</td>
+                <td>Határérték</td>
+                <td>Maximális karakter hossz</td>
+                <td>Felhasználónév: 255 karakter, jelszó: 255 karakter</td>
+                <td>1–4</td>
+                <td>Form elküldhető, backend kezeli a hosszú adatot</td>
+            </tr>
+
+            <tr>
+                <td>12</td>
+                <td>Határérték</td>
+                <td>Speciális karakterek</td>
+                <td>!@#$%^&*() felhasználónévben és jelszóban</td>
+                <td>1–4</td>
+                <td>JSON korrektül jelenik meg, backend elfogadja/kezeli</td>
+            </tr>
+
+            <tr>
+                <td>13</td>
+                <td>Biztonsági</td>
+                <td>XSS támadás</td>
+                <td>&lt;script&gt;alert(1)&lt;/script&gt;</td>
+                <td>1–4</td>
+                <td>JSON safe megjelenítés &lt;pre&gt;-ben, alert nem fut le</td>
+            </tr>
+
+            <tr>
+                <td>14</td>
+                <td>Biztonsági</td>
+                <td>SQL injection</td>
+                <td>' OR '1'='1</td>
+                <td>1–4</td>
+                <td>Backend hibás adatként kezeli, login sikertelen</td>
+            </tr>
+
+            <tr>
+                <td>15</td>
+                <td>Biztonsági</td>
+                <td>Token tárolás ellenőrzése</td>
+                <td>Létező felhasználónév + helyes jelszó</td>
+                <td>1–4</td>
+                <td>localStorage tartalmazza a token-t</td>
+            </tr>
+
+            <tr>
+                <td>16</td>
+                <td>Biztonsági</td>
+                <td>Többszöri submit</td>
+                <td>Gyors egymás utáni kattintás</td>
+                <td>1–4</td>
+                <td>Frontend nem küld újra azonnal, backend kezeli a duplikált kéréseket</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h1>Regisztració</h1>
+    <hr>
+    <table border="1" cellspacing="0" cellpadding="6">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Teszt típusa</th>
+                <th>Teszt eset</th>
+                <th>Bemenet</th>
+                <th>Lépések</th>
+                <th>Várt eredmény</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Pozitív</td>
+                <td>Sikeres regisztráció</td>
+                <td>Minden mező érvényes adat</td>
+                <td>1. Nyisd meg a regisztrációs oldalt<br>2. Töltsd ki az összes mezőt érvényes adatokkal<br>3.
+                    Kattints a Regisztráció gombra</td>
+                <td>Form sikeresen elküldve, JSON válasz a
+                    <pre id="jsonOutput"></pre> mezőben
+                </td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td>Negatív</td>
+                <td>Üres kötelező mező</td>
+                <td>Pl. vezetéknév üres, többi kitöltve</td>
+                <td>1–3 ugyanaz</td>
+                <td>Form nem küldődik, HTML5 validáció jelzi a hibát</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td>Negatív</td>
+                <td>Hibás email formátum</td>
+                <td>Email: "invalidemail"</td>
+                <td>1–3 ugyanaz</td>
+                <td>Form nem küldődik, HTML5 validáció jelzi a hibát</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td>Negatív</td>
+                <td>Hibás telefonszám</td>
+                <td>Telefonszám: "123abc"</td>
+                <td>1–3 ugyanaz</td>
+                <td>Form nem küldődik, HTML5 validáció jelzi a hibát</td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td>Negatív</td>
+                <td>Jelszó és megerősítés nem egyezik</td>
+                <td>Jelszó: "123456", megerősítés: "654321"</td>
+                <td>1–3 ugyanaz</td>
+                <td>Form nem küldődik, alert vagy validáció jelzi a hibát</td>
+            </tr>
+
+            <tr>
+                <td>6</td>
+                <td>Határérték</td>
+                <td>Minimális karakter hossz</td>
+                <td>Vezetéknév: 1 karakter, jelszó: 6 karakter</td>
+                <td>1–3 ugyanaz</td>
+                <td>Form elküldhető, backend kezeli az adatot</td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+                <td>Határérték</td>
+                <td>Maximális karakter hossz</td>
+                <td>Minden mező 255 karakter</td>
+                <td>1–3 ugyanaz</td>
+                <td>Form elküldhető, backend kezeli a hosszú adatot</td>
+            </tr>
+
+            <tr>
+                <td>8</td>
+                <td>Biztonsági</td>
+                <td>XSS támadás</td>
+                <td>Pl. vezetéknév: "&lt;script&gt;alert(1)&lt;/script&gt;"</td>
+                <td>1–3 ugyanaz</td>
+                <td>JSON safe megjelenítés a
+                    <pre id="jsonOutput"></pre> mezőben, alert nem fut le
+                </td>
+            </tr>
+
+            <tr>
+                <td>9</td>
+                <td>Biztonsági</td>
+                <td>SQL injection</td>
+                <td>Email: "' OR '1'='1"</td>
+                <td>1–3 ugyanaz</td>
+                <td>Backend hibás adatként kezeli, regisztráció sikertelen</td>
+            </tr>
+
+            <tr>
+                <td>10</td>
+                <td>Negatív</td>
+                <td>Backend hiba</td>
+                <td>Minden mező érvényes, de backend offline</td>
+                <td>1–3 ugyanaz</td>
+                <td>Alert: "❌ Hiba történt a küldés közben!", console error log</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>
