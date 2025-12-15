@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
   <meta charset="UTF-8">
   <title>Eseménynaptár</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css">
   <link rel="stylesheet" href="style.css">
- 
+<link rel="icon" type="image/png" href="location.png">
 </head>
+
 <body>
   <header>
     <nav>
@@ -24,48 +26,47 @@
 
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script>
-    
-    function loadEventsFromXML(xmlText) {
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-      const eventNodes = xmlDoc.getElementsByTagName("event");
-      const events = [];
+    document.addEventListener('DOMContentLoaded', async function () {
+      const calendarEl = document.getElementById('calendar');
 
-      for (let i = 0; i < eventNodes.length; i++) {
-        const event = eventNodes[i];
-        events.push({
-          title: event.getElementsByTagName("title")[0].textContent,
-          start: event.getElementsByTagName("start")[0].textContent,
-          end: event.getElementsByTagName("end")[0].textContent
+     
+      async function loadEventsFromXML(url) {
+        const response = await fetch(url);
+        const text = await response.text();
+
+        
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(text, "application/xml");
+
+
+        const events = Array.from(xmlDoc.getElementsByTagName('event')).map(ev => {
+          return {
+            title: ev.getElementsByTagName('title')[0].textContent,
+            start: ev.getElementsByTagName('start')[0].textContent,
+            end: ev.getElementsByTagName('end')[0]?.textContent || undefined
+          };
         });
+
+        return events;
       }
 
-      return events;
-    }
+      const events = await loadEventsFromXML('esemenyek.xml');
 
-    
-    fetch('esemenyek.xml')
-      .then(response => response.text())
-      .then(xmlText => {
-        const events = loadEventsFromXML(xmlText);
-
-        const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-          initialView: 'dayGridMonth',
-          locale: 'hu',
-          firstDay: 1, 
-          headerToolbar: {
-            left: 'prevYear,prev,today,next,nextYear',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          events: events
-        });
-
-        calendar.render();
-      })
-      .catch(err => {
-        console.error("Hiba az események betöltésekor:", err);
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'hu',
+        firstDay: 1, 
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: events
       });
+
+      calendar.render();
+    });
   </script>
 </body>
+
 </html>
