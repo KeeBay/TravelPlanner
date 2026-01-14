@@ -11,7 +11,7 @@ async function passwordHash(password){
     return hashedPassword;
 }
 
-async function registrationPUTController (req, res){
+async function registrationPOSTController (req, res){
 
     try{
     const userData = req.body;
@@ -53,5 +53,5 @@ async function registrationPUTController (req, res){
 };
 
 module.exports= {
-     registrationPUTController
+     registrationPOSTController
 }

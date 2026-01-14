@@ -1,5 +1,4 @@
 const Joi = require('joi');
-//'[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+( [A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+)+'
 const schema = Joi.object({
     
     first_name: Joi.string()
