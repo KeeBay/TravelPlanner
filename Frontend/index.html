@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Szállásajánlatok</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.rtl.min.css"
+    integrity="sha384-CfCrinSRH2IR6a4e6fy2q6ioOX7O6Mtm1L9vRvFZ1trBncWmMePhzvafv7oIcWiW" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+<link rel="icon" type="image/png" href="location.png">
+<script src="app.js" defer></script>
+</head>
+
+<body>
+ <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Főoldal</a></li>
+        <li><a href="kov.spec.html">Specifikáció</a></li>
+
+        <li class="guest-only"><a href="bejelentkezes.html" id="nav-login">Bejelentkezés</a></li>
+        <li class="guest-only"><a href="regisztracio.html" id="nav-reg">Regisztráció</a></li>
+
+        <li class="user-only" style="display:none;"><a href="naptar.html" id="nav-calendar">Naptár</a></li>
+        <li class="user-only" style="display:none;"><a href="profil.html" id="nav-profile">Profil</a></li>
+        <li class="user-only" style="display:none;"><a href="#" id="nav-logout">Kijelentkezés</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="filter-bar">
+  <form id="searchForm">
+
+    <label for="city">Város:</label>
+    <input type="text" id="city" name="city" placeholder="Írd be a város nevét" required>
+
+    <label for="startDate">Utazás kezdete:</label>
+    <input type="date" id="startDate" name="startDate" required>
+
+    <label for="endDate">Vége:</label>
+    <input type="date" id="endDate" name="endDate" required>
+
+    <label for="guests">Vendégek száma:</label>
+    <select id="guests" name="guests" required>
+      <option value="">Válassz</option>
+      <option value="1">1 fő</option>
+      <option value="2">2 fő</option>
+      
+      <option value="4">4 fő</option>
+      <option value="5plus">5+ fő</option>
+    </select>
+
+    <button type="submit">Szűrés</button>
+
+      <button type="button" id="tourismBtn" class="btn btn-success tourism-toggle">Aktív turizmus</button>
+    </form>
+  </section>
+
+
+
+  <main class="wrapper">
+    <section id="combined-cards">
+      <div class="cards-header">
+
+
+
+        <h2>Legjobb ajánlatok</h2>
+        <select id="sort-price">
+          <option value="default">Eredeti sorrend</option>
+          <option value="asc">Ár szerint növekvő</option>
+          <option value="desc">Ár szerint csökkenő</option>
+        </select>
+      </div>
+
+
+      <div class="slider-wrapper">
+        <button class="slide-btn left">&#10094;</button>
+        <div class="cards-container"></div>
+        <button class="slide-btn right">&#10095;</button>
+      </div>
+    </section>
+  </main>
+
+
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+
+
+      <span id="close-btn" class="close">&times;</span>
+
+
+      <h3 id="modal-varos" class="modal-title">Város neve</h3>
+      <p id="modal-weather">Időjárás: betöltés...</p>
+
+
+      <div id="modal-map" style="height:300px; margin-top:1px;"></div>
+
+      <div class="modal-details">
+        <p id="modal-ejszakak">Nincs megadva éjszaka</p>
+
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+
+  <div class="destinations">
+    <h2>Felkapott úti célok</h2>
+    <p>Magyarországról érkező utazóink körében ezek a legnépszerűbbek</p>
+
+    <div class="top-row">
+      <a href="https://example.com/eger-aktiv-turizmus" style="background-image: url('becs.PNG');" target="_blank"
+        class="destination-link">Eger</a>
+      <a href="https://example.com/budapest-aktiv-turizmus" style="background-image: url('becs.PNG');" target="_blank"
+        class="destination-link">Budapest</a>
+    </div>
+
+    <div class="bottom-row">
+      <a href="https://example.com/becs-aktiv-turizmus" style="background-image: url('becs.PNG');" target="_blank"
+        class="destination-link">Bécs</a>
+      <a href="https://example.com/szeged-aktiv-turizmus" style="background-image: url('becs.PNG');" target="_blank"
+        class="destination-link">Szeged</a>
+      <a href="https://example.com/praga-aktiv-turizmus" style="background-image: url('becs.PNG');" target="_blank"
+        class="destination-link">Prága</a>
+    </div>
+  </div>
+
+
+
+
+  <hr>
+  <footer class="footer  text-light py-4">
+    <div class="container">
+      <div class="row">
+
+
+        <div class="col-md-4">
+          <h5>Hasznos linkek</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-light">Névjegyzék</a></li>
+            <li><a href="#" class="text-light">Applikáció</a></li>
+          </ul>
+        </div>
+
+
+        <div class="col-md-4">
+          <h5>Népszerű oldal</h5>
+          <p><a href="#" class="text-light">Gyakran ismételt kérdések</a></p>
+        </div>
+
+
+        <div class="col-md-4">
+          <h5>Elérhetőség</h5>
+          <p>Email: info@szallas.hu</p>
+          <p>Telefon: +36 30 123 4567</p>
+          <div class="social-icons d-flex gap-3">
+            <a href="#"><img src="facebook.png" alt="Facebook" width="30"></a>
+            <a href="#"><img src="instagram.png" alt="Instagram" width="30"></a>
+            <a href="#"><img src="tiktok.png" alt="TikTok" width="30"></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+
+</html>
+<!-- 
+city → <input type="text" id="city" name="city">
+
+price → <select id="price" name="price">
+
+értékek: low, mid, high
+
+days → <select id="days" name="days">
+
+értékek: 1, 2, 3plus
+
+guests → <select id="guests" name="guests">
+
+értékek: 1, 2,
+
+<button type="submit">Szűrés</button>
+
+
+-->

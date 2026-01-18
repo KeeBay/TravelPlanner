@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Eseménynaptár</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css">
+  <link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="location.png">
+<script src="app.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Főoldal</a></li>
+        <li><a href="kov.spec.html">Specifikáció</a></li>
+
+        <li class="guest-only"><a href="bejelentkezes.html" id="nav-login">Bejelentkezés</a></li>
+        <li class="guest-only"><a href="regisztracio.html" id="nav-reg">Regisztráció</a></li>
+
+        <li class="user-only" style="display:none;"><a href="naptar.html" id="nav-calendar">Naptár</a></li>
+        <li class="user-only" style="display:none;"><a href="profil.html" id="nav-profile">Profil</a></li>
+        <li class="user-only" style="display:none;"><a href="#" id="nav-logout">Kijelentkezés</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="calendar"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function () {
+      const calendarEl = document.getElementById('calendar');
+
+     
+      async function loadEventsFromXML(url) {
+        const response = await fetch(url);
+        const text = await response.text();
+
+        
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(text, "application/xml");
+
+
+        const events = Array.from(xmlDoc.getElementsByTagName('event')).map(ev => {
+          return {
+            title: ev.getElementsByTagName('title')[0].textContent,
+            start: ev.getElementsByTagName('start')[0].textContent,
+            end: ev.getElementsByTagName('end')[0]?.textContent || undefined
+          };
+        });
+
+        return events;
+      }
+
+      const events = await loadEventsFromXML('esemenyek.xml');
+
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'hu',
+        firstDay: 1, 
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: events
+      });
+
+      calendar.render();
+    });
+  </script>
+</body>
+
+</html>
