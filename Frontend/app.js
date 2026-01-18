@@ -1,5 +1,7 @@
 const BACKEND_URL = "http://localhost:3000";
 let activeTourism = true;
+let modalMap;
+let routingControl;
 
 const szallasok = [
   { varos: "Budapest", nev: "Hotel Budapest", ejszakak: 2, ar: 20000, kep: "repulogep.png", lat: 47.4979, lng: 19.0402 },
@@ -48,7 +50,7 @@ async function renderCards(data, containerSelector) {
 }
 
 async function getWeather(lat, lng, szallas) {
-  const WEATHER_API_KEY = "b3b282d3f1d1fdaeae82c98a279b4df7";
+  const WEATHER_API_KEY = "3fc37c1384c4de14f6b801a48e752d01";
   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lng}&units=metric&lang=hu&appid=${WEATHER_API_KEY}`;
 
   try {
@@ -212,7 +214,6 @@ async function handleLogout() {
 }
 
 
-// Oldal betöltés után
 document.addEventListener('DOMContentLoaded', async () => {
 
 updateNavigation();

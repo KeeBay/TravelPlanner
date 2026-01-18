@@ -91,15 +91,6 @@ async function hotelSearchController(req, res) {
         return res.status(400).json({ error: true, message: "Hiányzó 'query' paraméter." });
     }
 
-    if (!startDate || !endDate) {
-        const today = new Date();
-        const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
-        const dayAfter = new Date(today); dayAfter.setDate(today.getDate() + 2);
-        
-        startDate = tomorrow.toISOString().split('T')[0];
-        endDate = dayAfter.toISOString().split('T')[0];
-    }
-
     let guestCount = (guests === '5plus') ? '5' : (guests || '2');
 
     try {

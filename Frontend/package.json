@@ -1,0 +1,11 @@
+{
+  "name": "travelplanner-frontend",
+  "version": "1.0.0",
+  "description": "Frontend szerver fix porttal",
+  "scripts": {
+    "start": "npx live-server --port=5500 --entry-file=index.html"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  }
+}
