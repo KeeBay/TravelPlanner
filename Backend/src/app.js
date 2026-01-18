@@ -8,6 +8,7 @@ const blacklistModel = require('./model/blacklistModel.js');
 const registrationRouter = require("./route/registrationRoute");
 const loginRouter = require("./route/loginRoute");
 const userRouter = require('./route/userRoute');
+const hotelRouter = require('./route/hotelRoute')
 
 const { scheduledDelete } = require('./scheduledDeleteFromBlackList')
 
@@ -20,6 +21,7 @@ const PORT = 3000;
 app.use("/",registrationRouter);
 app.use("/", loginRouter);
 app.use("/", userRouter);
+app.use("/", hotelRouter);
 
 sequelize.authenticate().then(() => {
   console.log('Sikeres kapcsolat az adatbázissal!');
