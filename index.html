@@ -13,17 +13,22 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 <link rel="icon" type="image/png" href="location.png">
+<script src="app.js" defer></script>
 </head>
 
 <body>
-  <header>
+ <header>
     <nav>
       <ul>
-        <li><a href="kov.spec.html">Köveletmény specifikáció</a></li>
-        <li><a href="bejelentkezes.html">Bejelentkezes</a></li>
-        <li><a href="naptar.html">Naptár</a></li>
-        <li><a href="index.html">Index</a></li>
-        <li><a href="regisztracio.html">Regisztracio</a></li>
+        <li><a href="index.html">Főoldal</a></li>
+        <li><a href="kov.spec.html">Specifikáció</a></li>
+
+        <li class="guest-only"><a href="bejelentkezes.html" id="nav-login">Bejelentkezés</a></li>
+        <li class="guest-only"><a href="regisztracio.html" id="nav-reg">Regisztráció</a></li>
+
+        <li class="user-only" style="display:none;"><a href="naptar.html" id="nav-calendar">Naptár</a></li>
+        <li class="user-only" style="display:none;"><a href="profil.html" id="nav-profile">Profil</a></li>
+        <li class="user-only" style="display:none;"><a href="#" id="nav-logout">Kijelentkezés</a></li>
       </ul>
     </nav>
   </header>

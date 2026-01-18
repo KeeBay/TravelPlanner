@@ -9,17 +9,22 @@
     integrity="sha384-CfCrinSRH2IR6a4e6fy2q6ioOX7O6Mtm1L9vRvFZ1trBncWmMePhzvafv7oIcWiW" crossorigin="anonymous">
   <title>Regisztráció</title>
   <link rel="icon" type="image/png" href="location.png">
+  <script src="app.js" defer></script>
 </head>
 
 <body>
   <header>
     <nav>
       <ul>
-        <li><a href="kov.spec.html">Követelmény specifikáció</a></li>
-        <li><a href="bejelentkezes.html">Bejelentkezés</a></li>
-        <li><a href="naptar.html">Naptár</a></li>
-        <li><a href="index.html">Index</a></li>
-        <li><a href="regisztracio.html">Regisztráció</a></li>
+        <li><a href="index.html">Főoldal</a></li>
+        <li><a href="kov.spec.html">Specifikáció</a></li>
+
+        <li class="guest-only"><a href="bejelentkezes.html" id="nav-login">Bejelentkezés</a></li>
+        <li class="guest-only"><a href="regisztracio.html" id="nav-reg">Regisztráció</a></li>
+
+        <li class="user-only" style="display:none;"><a href="naptar.html" id="nav-calendar">Naptár</a></li>
+        <li class="user-only" style="display:none;"><a href="profil.html" id="nav-profile">Profil</a></li>
+        <li class="user-only" style="display:none;"><a href="#" id="nav-logout">Kijelentkezés</a></li>
       </ul>
     </nav>
   </header>
@@ -89,9 +94,9 @@
           <p>Email: info@szallas.hu</p>
           <p>Telefon: +36 30 123 4567</p>
           <div class="social-icons d-flex gap-3">
-            <a href="#"><img src="facebook.png" alt="Facebook" width="30"></a>
+            <!--<a href="#"><img src="facebook.png" alt="Facebook" width="30"></a>
             <a href="#"><img src="instagram.png" alt="Instagram" width="30"></a>
-            <a href="#"><img src="tiktok.png" alt="TikTok" width="30"></a>
+            <a href="#"><img src="tiktok.png" alt="TikTok" width="30"></a> -->
           </div>
         </div>
 
