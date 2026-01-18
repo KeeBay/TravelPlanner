@@ -1,16 +1,14 @@
 const BACKEND_URL = "http://localhost:3000";
 let activeTourism = true;
 
-// Szállások adatai
 const szallasok = [
-  { varos: "Budapest", ejszakak: 2, ar: 20000, kep: "repulogep.png" },
-  { varos: "Eger", ejszakak: 3, ar: 15000, kep: "repulogep.png" },
-  { varos: "Szeged", ejszakak: 1, ar: 10000, kep: "repulogep.png" },
-  { varos: "Pécs", ejszakak: 4, ar: 25000, kep: "repulogep.png" },
-  { varos: "Debrecen", ejszakak: 2, ar: 18000, kep: "repulogep.png" }
+  { varos: "Budapest", nev: "Hotel Budapest", ejszakak: 2, ar: 20000, kep: "repulogep.png", lat: 47.4979, lng: 19.0402 },
+  { varos: "Eger", nev: "Eger Wellness", ejszakak: 3, ar: 15000, kep: "repulogep.png", lat: 47.9025, lng: 20.3733 },
+  { varos: "Szeged", nev: "Tisza Hotel", ejszakak: 1, ar: 10000, kep: "repulogep.png", lat: 46.253, lng: 20.1414 },
+  { varos: "Pécs", nev: "Mecsek Szálló", ejszakak: 4, ar: 25000, kep: "repulogep.png", lat: 46.072, lng: 18.233 },
+  { varos: "Debrecen", nev: "Aranybika", ejszakak: 2, ar: 18000, kep: "repulogep.png", lat: 47.5316, lng: 21.6273 }
 ];
 
-// Kártyák kirajzolása
 async function renderCards(data, containerSelector) {
   const container = document.querySelector(containerSelector);
   if (!container) return; 
@@ -49,7 +47,58 @@ async function renderCards(data, containerSelector) {
   }
 }
 
-// Modal megnyitása
+async function getWeather(lat, lng, szallas) {
+  const WEATHER_API_KEY = "b3b282d3f1d1fdaeae82c98a279b4df7";
+  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lng}&units=metric&lang=hu&appid=${WEATHER_API_KEY}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const days = {};
+    data.list.forEach(item => {
+      const date = item.dt_txt.split(" ")[0].slice(5);
+      if (!days[date]) days[date] = [];
+      days[date].push(item);
+    });
+    const dayKeys = Object.keys(days).slice(0, 5);
+
+    let tableHTML = `<table class="weather-table" style="width:100%; text-align:center; border-collapse: collapse;">
+                       <tr>
+                         <th style=" font-size:12px; padding:5px;">${dayKeys.join('</th><th style=" font-size:12px; padding:5px;">')}</th>
+                       </tr>
+                       <tr>`;
+
+    dayKeys.forEach(date => {
+      const weatherMain = days[date][0].weather[0].main.toLowerCase();
+      let emoji = "❓";
+      if (weatherMain.includes("clear")) emoji = "☀️";
+      else if (weatherMain.includes("clouds")) emoji = "☁️";
+      else if (weatherMain.includes("rain")) emoji = "🌧️";
+      else if (weatherMain.includes("snow")) emoji = "❄️";
+      else if (weatherMain.includes("thunderstorm")) emoji = "⛈️";
+      else if (weatherMain.includes("drizzle")) emoji = "🌦️";
+      else if (weatherMain.includes("fog") || weatherMain.includes("mist")) emoji = "🌫️";
+      tableHTML += `<td style="font-size:1.5em;">${emoji}</td>`;
+    });
+    tableHTML += `</tr><tr>`;
+
+    dayKeys.forEach(date => {
+      const temps = days[date].map(d => d.main.temp);
+      const avgTemp = Math.round(temps.reduce((a, b) => a + b) / temps.length);
+      tableHTML += `<td style="font-size:14px;">${avgTemp}°C</td>`;
+    });
+    tableHTML += `</tr></table>`;
+    
+    const weatherContainer = document.getElementById('modal-weather');
+    if (weatherContainer) weatherContainer.innerHTML = tableHTML;
+
+  } catch (err) {
+    const weatherContainer = document.getElementById('modal-weather');
+    if (weatherContainer) weatherContainer.textContent = "Időjárás nem elérhető";
+  }
+}
+
 function openModal(szallas) {
   const modalVaros = document.getElementById('modal-varos');
   if (modalVaros) modalVaros.textContent = szallas.varos;
@@ -88,13 +137,11 @@ function openModal(szallas) {
   }
 }
 
-// Modal bezárása
 function closeModal() {
   const modal = document.getElementById('modal');
   if (modal) modal.style.display = 'none';
 }
 
-// Ár szerinti rendezés
 function sortByPrice(order) {
   let sorted = [...szallasok];
   if (order === 'asc') {
@@ -105,7 +152,6 @@ function sortByPrice(order) {
   return sorted;
 }
 
-// Slider funkció
 function initSliders() {
   const sliders = document.querySelectorAll('.slider-wrapper');
 
@@ -182,11 +228,81 @@ updateNavigation();
       });
   }
 
-  // 🔽 Alapértelmezett kártyák megjelenítése
-  renderCards(szallasok, '#combined-cards .cards-container');
-  initSliders();
+  const tourismBtn = document.getElementById("tourismBtn");
+  const cardsContainer = document.querySelector('#combined-cards .cards-container');
+  const searchForm = document.getElementById("searchForm");
 
-  // 🔽 Ár szerinti rendezés esemény
+  if (tourismBtn && cardsContainer) {
+    renderCards(szallasok, '#combined-cards .cards-container');
+    initSliders();
+
+    tourismBtn.addEventListener("click", () => {
+      activeTourism = !activeTourism;
+      if (activeTourism) {
+        tourismBtn.textContent = "Aktív turizmus";
+        tourismBtn.classList.remove("btn-secondary");
+        tourismBtn.classList.add("btn-success");
+      } else {
+        tourismBtn.textContent = "Passzív turizmus";
+        tourismBtn.classList.remove("btn-success");
+        tourismBtn.classList.add("btn-secondary");
+      }
+    });
+
+    const sortSelect = document.getElementById('sort-price');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            const value = e.target.value;
+            let sorted = sortByPrice(value);
+            renderCards(sorted, '#combined-cards .cards-container');
+        });
+    }
+
+    if (searchForm) {
+        searchForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const cityInput = document.getElementById("city").value;
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+            const guests = document.getElementById("guests").value;
+
+            cardsContainer.innerHTML = '<p style="color: white; text-align: center; padding: 20px;">Szállások és árak keresése...</p>';
+
+            try {
+                const params = new URLSearchParams({
+                    query: cityInput,
+                    startDate: startDate,
+                    endDate: endDate,
+                    guests: guests
+                });
+
+                const response = await fetch(`${BACKEND_URL}/hotels?${params.toString()}`);
+                const result = await response.json();
+
+                if (result.success && result.data && result.data.length > 0) {
+                    const apiHotels = result.data.map(hotel => {
+                        return {
+                            nev: hotel.name,
+                            varos: hotel.address ? hotel.address.cityName : cityInput,
+                            ar: hotel.price,
+                            kep: "repulogep.png",
+                            lat: hotel.geoCode.latitude,
+                            lng: hotel.geoCode.longitude
+                        };
+                    });
+                    renderCards(apiHotels, '#combined-cards .cards-container');
+                    initSliders();
+                } else {
+                    cardsContainer.innerHTML = '<p style="color: white; text-align: center;">Nem találtunk szállást ezen a helyen.</p>';
+                }
+            } catch (error) {
+                console.error("Keresési hiba:", error);
+                cardsContainer.innerHTML = '<p style="color: white; text-align: center;">Hiba történt a szerver elérésekor.</p>';
+            }
+        });
+    }
+  }
+
   const sortSelect = document.getElementById('sort-price');
     if (sortSelect) {
         sortSelect.addEventListener('change', (e) => {
