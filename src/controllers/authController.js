@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const removeAccents = require('remove-accents');
 const prisma = require('../config/db');
 
-const { registerSchema } = require('../validators/authSchema');
+const Schemas = require('../validators/authSchema');
 
 async function passwordHash(password) {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -16,7 +16,7 @@ async function authRegisterPostController (req, res){
 
         //letting the data through the authSchema
 
-        const {error, value} = registerSchema.validate(registrationData, {abortEarly: false})
+        const {error, value} = Schemas.registerSchema.validate(registrationData, {abortEarly: false})
         if (error) {
             console.error("Validation Error: ", error.details);
             return res.status(400).json({
@@ -76,4 +76,70 @@ async function authRegisterPostController (req, res){
     }
 }
 
-module.exports = {authRegisterPostController}
+async function authLoginPostController(req, res) {
+    try {
+
+        const loginData = req.body
+
+        //letting the data through the authSchema
+
+        const {error, value } = Schemas.loginSchema.validate(loginData, {abortEarly: true});
+
+        if (error) {
+            console.error("Validation Error: ", error.details);
+            return res.status(400).json({
+                message: "The validation of the given datas failed.",
+                details: error.details.map(detail => detail.message)
+            });
+        }
+        console.log('Valid datas: ', value);
+
+        //Checking the username and password
+
+        const userTryLogIn = await prisma.users.findUnique({
+            where: {Email : value.email}
+        });
+
+        if (!userTryLogIn) {
+            return res.status(404).json({
+                status: 404,
+                message: "There is no user with this email!"
+            });
+        };
+
+        const passwordCheck = await bcrypt.compare(value.password, userTryLogIn.Password);
+        if (!passwordCheck) {
+            return res.status(401).json({
+                error: true,
+                message: "Invalid password!"
+            });
+        }
+
+        const token = jwt.sign({
+            userId: userTryLogIn.UserID, 
+            username: userTryLogIn.Username
+        }, process.env.JWT_SECRET, 
+        { expiresIn: '1h' });
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000
+        })
+
+        res.status(200).json({
+            success: true,
+            message: "Successful Login"
+        })
+    } catch (error) {
+        console.error("Server error: ", error);
+        res.status(500).json({
+            error: true,
+            status: 500,
+            message: "Server error."
+        });
+    }
+}
+
+module.exports = {authRegisterPostController, authLoginPostController}
