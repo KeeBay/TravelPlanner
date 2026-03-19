@@ -19,7 +19,7 @@ last_name: Joi.string()
     }),
 
 username:Joi.string()
-    .pattern(new RegExp('^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0-9]+$'))
+    .pattern(new RegExp('/^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0-9._-]+$/'))
     .min(6)
     .max(30)
     .optional(),
@@ -61,4 +61,44 @@ const loginSchema = Joi.object({
     password: Joi.string().required()
 });
 
-module.exports = { registerSchema, loginSchema };
+const profileSchema = Joi.object({
+    
+    Firstname: Joi.string()
+    .pattern(new RegExp('^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$'))
+    .optional()
+    .messages({
+        'string.pattern.base': 'The first name can only contain letters!',
+        'any.required': 'A first name is required.'
+    }),
+
+Lastname: Joi.string()
+    .pattern(new RegExp('^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$'))
+    .optional()
+    .messages({
+        'string.pattern.base': 'The last name can only contain letters!',
+        'any.required': 'A last name is required.'
+    }),
+
+Username:Joi.string()
+    .pattern(new RegExp(/^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0-9._-]+$/))
+    .min(6)
+    .max(30)
+    .optional(),
+
+Email: Joi.string()
+    .email({minDomainSegments: 2})
+    .optional()
+    .messages({
+        'any.required': 'A valid email is required.'
+    }),
+
+Phone_number:Joi.string()
+    .pattern(new RegExp('^\\+?[0-9]{10,15}$'))
+    .optional(),
+
+Birth_date: Joi.string()
+    .isoDate()
+    .optional()
+})
+
+module.exports = { registerSchema, loginSchema, profileSchema };

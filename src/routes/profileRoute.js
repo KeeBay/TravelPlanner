@@ -6,5 +6,6 @@ const profileRouter = express.Router();
 const profileController = require('../controllers/profileController');
 
 profileRouter.get("/profile", authMiddleware, profileController.profileGetController);
+profileRouter.patch("/profile", authMiddleware, profileController.profilePatchController)
 
 module.exports = profileRouter;
