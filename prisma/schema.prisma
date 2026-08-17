@@ -87,7 +87,7 @@ model users {
   Lastname          String              @db.VarChar(20)
   Username          String              @unique @db.VarChar(20)
   Email             String              @unique @db.VarChar(100)
-  Password          String              @db.VarChar(100)
+  Password          String?              @db.VarChar(100)
   Birth_date        DateTime?           @db.Date
   Phone_number      String?             @db.VarChar(12)
   

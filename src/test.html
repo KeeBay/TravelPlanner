@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Token Generátor</title>
+    <!-- A Google hivatalos bejelentkezési szkriptje -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <h2>Jelentkezz be, hogy megkapd a tokent:</h2>
+    
+    <!-- Itt állítsd be a saját Client ID-dat! -->
+    <div id="g_id_onload"
+         data-client_id="618117880500-ualp0cfmramvumld7r55mo3n6cl7png0.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
+
+    <h3 style="margin-top: 30px;">A Te Tokened (ezt másold a Postmanbe):</h3>
+    <textarea id="tokenBox" rows="10" cols="100" placeholder="Itt fog megjelenni a token..."></textarea>
+
+    <script>
+        function handleCredentialResponse(response) {
+            // Amikor sikeres a belépés, a Google ide küldi a tokent
+            document.getElementById('tokenBox').value = response.credential;
+            console.log("Token megérkezett!");
+        }
+    </script>
+</body>
+</html>

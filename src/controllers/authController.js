@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const removeAccents = require('remove-accents');
 const prisma = require('../config/db');
+const { OAuth2Client } = require('google-auth-library');
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const Schemas = require('../validators/authSchema');
 
@@ -121,15 +123,12 @@ async function authLoginPostController(req, res) {
         }, process.env.JWT_SECRET, 
         { expiresIn: '1h' });
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 24 * 60 * 60 * 1000
-        })
+       
 
         res.status(200).json({
             success: true,
+            status: 200,
+            token: token,
             message: "Successful Login"
         })
     } catch (error) {
@@ -142,4 +141,49 @@ async function authLoginPostController(req, res) {
     }
 }
 
-module.exports = {authRegisterPostController, authLoginPostController}
+async function googleLogin(req, res) {
+    try {
+        const googleUser = req.verifiedGoogleUser;
+
+        let user = await prisma.users.findUnique({
+            where: { Email: googleUser.email }
+        });
+
+        if (!user) {
+            const generatedUsername = googleUser.email.split('@')[0] + '_' + Math.floor(Math.random() * 10000);
+
+            user = await prisma.users.create({
+                data: {
+                    Email: googleUser.email,
+                    Firstname: googleUser.firstName,
+                    Lastname: googleUser.lastName,
+                    Username: generatedUsername,
+                    Password: null, // Google usernél nincs jelszó!
+                }
+            });
+        }
+
+        const token = jwt.sign(
+            { userId: user.UserID, email: user.Email },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Google authentication successful!",
+            token: token,
+            user: {
+                id: user.UserID,
+                email: user.Email,
+                username: user.Username
+            }
+        });
+
+    } catch (error) {
+        console.error("Google Auth Error:", error);
+        return res.status(500).json({ message: "Internal server error during Google authentication." });
+    }
+}
+
+module.exports = {authRegisterPostController, authLoginPostController, googleLogin}
