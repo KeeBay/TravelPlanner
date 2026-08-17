@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+}
+
+model countries {
+  CountryID         String              @id @db.VarChar(2)
+  CountryName       String              @db.VarChar(20)
+
+  visited_countries visited_countries[]
+}
+
+model days {
+  DayID      String      @id @default(uuid()) @db.VarChar(40)
+  Trip_id    String      @db.VarChar(40)
+  DayIndex   Int
+  
+  trips      trips       @relation(fields: [Trip_id], references: [TripID], onDelete: Cascade)
+  tripevents tripevents[]
+  
+  @@index([Trip_id])
+}
+
+model places {
+  PlaceID    String      @id @default(uuid()) @db.VarChar(40)
+  ExternalID String      @unique @db.VarChar(50)
+  Name       String      @db.VarChar(100)
+  Category   String      @db.VarChar(50)
+  Lat        Float       @db.Float
+  Lng        Float       @db.Float
+  CachedData Json?
+
+  reviews    reviews[]
+  tripevents tripevents[]
+}
+
+model reviews {
+  ReviewID String @id @default(uuid()) @db.VarChar(40)
+  User_id  String @db.VarChar(40)
+  Place_id String @db.VarChar(40)
+  Rating   Int
+  Comment  String @db.Text
+  ImageURL String @db.Text
+  
+  places   places @relation(fields: [Place_id], references: [PlaceID], onDelete: Cascade)
+  users    users  @relation(fields: [User_id], references: [UserID], onDelete: Cascade)
+
+  @@index([Place_id])
+  @@index([User_id])
+}
+
+model tripevents {
+  EventID   String   @id @default(uuid()) @db.VarChar(40)
+  Day_id    String   @db.VarChar(40)
+  Place_id  String   @db.VarChar(40)
+  TripOrder Int
+  StartTime DateTime @db.DateTime(0)
+  Notes     String?  @db.Text
+  
+  days      days     @relation(fields: [Day_id], references: [DayID], onDelete: Cascade)
+  places    places   @relation(fields: [Place_id], references: [PlaceID], onDelete: Cascade)
+  
+  @@index([Day_id])
+  @@index([Place_id])
+}
+
+model trips {
+  TripID    String   @id @default(uuid()) @db.VarChar(40)
+  User_Id   String   @db.VarChar(40)
+  TripName  String   @db.VarChar(50)
+  StartDate DateTime @db.Date
+  EndDate   DateTime @db.Date
+  days      days[]
+
+  users     users    @relation(fields: [User_Id], references: [UserID], onDelete: Cascade)
+  
+  @@index([User_Id])
+}
+
+model users {
+  UserID            String              @id @default(uuid()) @db.VarChar(40)
+  Firstname         String              @db.VarChar(20)
+  Lastname          String              @db.VarChar(20)
+  Username          String              @unique @db.VarChar(20)
+  Email             String              @unique @db.VarChar(100)
+  Password          String?              @db.VarChar(100)
+  Birth_date        DateTime?           @db.Date
+  Phone_number      String?             @db.VarChar(12)
+  
+  reviews           reviews[]
+  trips             trips[]
+  
+  visited_countries visited_countries[]
+}
+
+model visited_countries {
+  id         Int       @id @default(autoincrement())
+  user_id    String    @db.VarChar(40)
+  country_id String    @db.VarChar(2)
+
+  users      users     @relation(fields: [user_id], references: [UserID], onDelete: Cascade)
+  countries  countries @relation(fields: [country_id], references: [CountryID], onDelete: Cascade)
+
+  @@unique([user_id, country_id])
+  @@index([country_id])
+}
