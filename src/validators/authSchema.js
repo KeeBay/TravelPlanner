@@ -64,7 +64,7 @@ const loginSchema = Joi.object({
 const profileSchema = Joi.object({
     
     Firstname: Joi.string()
-    .pattern(new RegExp('^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$'))
+    .pattern(new RegExp('/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű\s\-]+$/'))
     .optional()
     .messages({
         'string.pattern.base': 'The first name can only contain letters!',
@@ -72,7 +72,7 @@ const profileSchema = Joi.object({
     }),
 
 Lastname: Joi.string()
-    .pattern(new RegExp('^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$'))
+    .pattern(new RegExp('/^[a-zA-ZÁÉÍÓÖŐÚÜŰáéíóöőúüű\s\-]+$/'))
     .optional()
     .messages({
         'string.pattern.base': 'The last name can only contain letters!',
