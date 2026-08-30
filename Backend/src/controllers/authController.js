@@ -14,19 +14,7 @@ async function passwordHash(password) {
 
 async function authRegisterPostController (req, res){
     try {
-        const registrationData = req.body;
-
-        //letting the data through the authSchema
-
-        const {error, value} = Schemas.registerSchema.validate(registrationData, {abortEarly: false})
-        if (error) {
-            console.error("Validation Error: ", error.details);
-            return res.status(400).json({
-                message: "The validation of the given datas failed.",
-                details: error.details.map(detail => detail.message)
-            });
-        }
-        console.log('Valid datas: ', value);
+        const value = req.body;
 
         //Check if there is a user with this email
 
@@ -81,20 +69,7 @@ async function authRegisterPostController (req, res){
 async function authLoginPostController(req, res) {
     try {
 
-        const loginData = req.body
-
-        //letting the data through the authSchema
-
-        const {error, value } = Schemas.loginSchema.validate(loginData, {abortEarly: true});
-
-        if (error) {
-            console.error("Validation Error: ", error.details);
-            return res.status(400).json({
-                message: "The validation of the given datas failed.",
-                details: error.details.map(detail => detail.message)
-            });
-        }
-        console.log('Valid datas: ', value);
+        const value = req.body
 
         //Checking the username and password
 
@@ -137,6 +112,23 @@ async function authLoginPostController(req, res) {
             error: true,
             status: 500,
             message: "Server error."
+        });
+    }
+}
+
+async function authLogoutPostController(req, res) {
+    try {
+        res.status(200).json({
+            success: true,
+            status: 200,
+            message: "Successful logout."
+        });
+    } catch (error) {
+        console.error("Logout error: ", error);
+        res.status(500).json({
+            error: true,
+            status: 500,
+            message: "Server error during logout."
         });
     }
 }
@@ -186,4 +178,4 @@ async function googleLogin(req, res) {
     }
 }
 
-module.exports = {authRegisterPostController, authLoginPostController, googleLogin}
+module.exports = {authRegisterPostController, authLoginPostController, authLogoutPostController, googleLogin}

@@ -27,7 +27,7 @@ model days {
 
 model places {
   PlaceID    String      @id @default(uuid()) @db.VarChar(40)
-  ExternalID String      @unique @db.VarChar(50)
+  ExternalID String      @unique @db.VarChar(255)
   Name       String      @db.VarChar(100)
   Category   String      @db.VarChar(50)
   Lat        Float       @db.Float
@@ -58,7 +58,7 @@ model tripevents {
   Day_id    String   @db.VarChar(40)
   Place_id  String   @db.VarChar(40)
   TripOrder Int
-  StartTime DateTime @db.DateTime(0)
+  StartTime DateTime? @db.DateTime(0)
   Notes     String?  @db.Text
   
   days      days     @relation(fields: [Day_id], references: [DayID], onDelete: Cascade)
@@ -75,6 +75,7 @@ model trips {
   StartDate DateTime @db.Date
   EndDate   DateTime @db.Date
   days      days[]
+  IsPublic  Boolean  @default(false)
 
   users     users    @relation(fields: [User_Id], references: [UserID], onDelete: Cascade)
   

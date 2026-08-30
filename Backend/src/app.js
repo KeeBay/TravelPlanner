@@ -9,13 +9,9 @@ const PORT = process.env.PORT || 4000
 
 const authRoutes = require('./routes/authRoute');
 const profileRoutes = require('./routes/profileRoute');
+const placesRoutes = require('./routes/placesRoute');
 
 const app = express();
-
-
-
-// Ideiglenes route a Google token teszteléséhez
-
 
 app.use(cors({
     origin: 'http://localhost:4400',
@@ -26,6 +22,7 @@ app.use(cookieParser());
 
 app.use('/api/', authRoutes);
 app.use('/api/', profileRoutes);
+app.use('/api/', placesRoutes);
 app.get('/test', (req, res) => {
     res.sendFile(path.join(__dirname, 'test.html'));
 });
